@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link href="https://www.highcharts.com/highslide/highslide.css" rel="stylesheet" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/highcharts.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/highcharts-more.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/modules/heatmap.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/modules/exporting.js"></script>
+    </head>
+    <body style="margin:0;padding:0">
+                <div id="container" style="">Loading....</div>
+
+
+    <script>
+        $(function(){
+
+
+
+
+
+            Highcharts.setOptions({"global": {}, "lang": {}});
+            var option = {"chart": {"renderTo": "container", "resetZoomButton": {"relativeTo": "chart", "position": {"x": 10, "y": -30}}, "style": {"fontFamily": "Lucida Grande, sans-serif", "fontfontSize": "22px"}}, "colors": {}, "credits": {"enabled": false}, "drilldown": {}, "exporting": {}, "labels": {}, "legend": {}, "loading": {}, "navigation": {}, "pane": {}, "plotOptions": {}, "series": {}, "subtitle": {}, "title": {"text": "A New Highchart"}, "tooltip": {"formatter": function () { return'<b>'+ this.series.name + '</b>: ' + this.y; }}, "xAxis": {"events": {"afterBreaks": function(e){return}, "pointBreak": function(e){return}}, "plotBands": [{"color": "#FCFFC5", "from": 2, "to": 4}, {"color": "#FCFFC5", "from": 6, "to": 8}, {"color": "#FCFFC5", "from": 10, "to": 12}]}, "yAxis": {}};
+
+
+ 
+
+            var chart = new Highcharts.Chart(option);
+
+            var data = [{"data": [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2], "type": "line", "name": "Series 1"}, {"data": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], "type": "line", "marker": {"states": {"hover": {"enabled": true, "fillColor": "white", "lineColor": "red", "lineWidth": 2}}}, "events": {"click": function (event) { alert(this.name + ' clicked\n' + 'Alt: ' + event.altKey + '\n' +                  'Control: ' + event.ctrlKey + '\n' + 'Shift: ' + event.shiftKey + '\n');}}, "name": "Series 2", "dashStyle": "ShortDash"}];
+            var dataLen = data.length;
+            for (var ix = 0; ix < dataLen; ix++) {
+                chart.addSeries(data[ix]);
+            }
+ 
+
+
+
+
+
+
+
+        
+    });
+        </script>
+
+    </body>
+</html>
