@@ -137,9 +137,11 @@ fig5.update_layout(
     title_text="Tamaño de Empresas",
     # Add annotations in the center of the donut pies.
     annotations=[dict(text='Empresas', x=0.18, y=1.2, font_size=20, showarrow=False),
-                 dict(text='Empleos', x=0.82, y=0.5, font_size=20, showarrow=False),
-                 dict(text='Activos', x=0.82, y=0.5, font_size=20, showarrow=False),
-                 dict(text='Ventas', x=0.18, y=1, font_size=20, showarrow=False)])
+                 dict(text='Empleos', x=0.82, y=1.2, font_size=20, showarrow=False),
+                 dict(text='Activos', x=0.18, y=0.5, font_size=20, showarrow=False),
+                 dict(text='Ventas', x=0.82, y=0.5, font_size=20, showarrow=False)])
+
+
 
 #app = dash.Dash()
 def empresarial():
@@ -184,6 +186,15 @@ def empresarial():
                                                 selected_style=tab_selected_style,
                                                 children=[
                                                 dcc.Graph(figure=fig5),
+                                                html.P("Values:"),
+                                                dcc.Dropdown(
+                                                    id='values',
+                                                    value='Empresas',
+                                                    options=[{'value': x, 'label': x}
+                                                             for x in ['Empresas', 'Empleados', 'Activos','Ingresos']],
+                                                    clearable=False
+                                                ),
+                                                dcc.Graph(id="pie-chart"),
 
 
                                                 ],

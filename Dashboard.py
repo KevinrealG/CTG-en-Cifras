@@ -4,8 +4,14 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from empresarial import empresarial
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+from dash.exceptions import PreventUpdate
+import pandas as pd
+import plotly.express as px
 
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
+
+path='Data/base de dinamica.xlsx'
+df=pd.read_excel(path,sheet_name='estructura')
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -67,7 +73,14 @@ def render_page_content(pathname):
             html.P(f"The pathname {pathname} was not recognised..."),
         ]
     )
+@app.callback(
+    Output("pie-chart", "figure"),
 
+     Input("values", "value"),Input("url", "pathname"))
+def generate_chart(values,pathname):
+
+        fig = px.treemap( values=df[values], path=[df['Organizacion']])
+        return fig
 
 if __name__ == "__main__":
     app.run_server(port=8888,debug=True)
