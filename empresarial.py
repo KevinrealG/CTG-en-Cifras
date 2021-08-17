@@ -114,32 +114,35 @@ fig4.update_layout(title='Historico de Empresas Cartagena',barmode='stack')
 #                  marker=dict(colors=colors, line=dict(color='#000000', width=2)))
 #make subplots
 data2=pd.read_excel(path,sheet_name='Tamaño_1')
-def df(data,variable):
+def df(variable,year=2020,data=data2):
         data=data.loc[data['Categoria']==variable]
         labels = data['Tamaño']
         #print(data[2019])
-        values=data[2020]
+        values=data[year]
         #go.Pie(labels=labels, values=values, name=variable)
         return go.Pie(labels=labels, values=values, name=variable)
 
 
 
 # Create subplots: use 'domain' type for Pie subplot
-fig5 = make_subplots(rows=2, cols=2, specs=[[{'type':'domain'}, {'type':'domain'}], [{'type':'domain'}, {'type':'domain'}]])
-fig5.add_trace(df(data2,'Empresas'),    1, 1)
-fig5.add_trace(df(data2,'Empleos'),     1, 2)
-fig5.add_trace(df(data2,'Activos'),   2, 1)
-fig5.add_trace(df(data2,'Ventas'),  2, 2)
-# Use `hole` to create a donut-like pie chart
-fig5.update_traces(hole=.4, hoverinfo="label+percent+name")
+def tamano(year=2020):
+    fig = make_subplots(rows=1, cols=4, specs=[[{'type':'domain'}, {'type':'domain'}, {'type':'domain'}, {'type':'domain'}]])
+    fig.add_trace(df('Empresas',year,data2), 1, 1)
+    fig.add_trace(df('Empleos',year,data2),  1, 2)
+    fig.add_trace(df('Activos',year,data2), 1, 3)
+    fig.add_trace(df('Ventas',year, data2), 1, 4)
+    # Use `hole` to create a donut-like pie chart
+    #fig.update_traces(hole=.4, hoverinfo="label+percent+name")
 
-fig5.update_layout(
-    title_text="Tamaño de Empresas",
-    # Add annotations in the center of the donut pies.
-    annotations=[dict(text='Empresas', x=0.18, y=1.2, font_size=20, showarrow=False),
-                 dict(text='Empleos', x=0.82, y=1.2, font_size=20, showarrow=False),
-                 dict(text='Activos', x=0.18, y=0.5, font_size=20, showarrow=False),
-                 dict(text='Ventas', x=0.82, y=0.5, font_size=20, showarrow=False)])
+    fig.update_layout(
+        title_text="Tamaño de Empresas "+str(year),
+        # Add annotations in the center of the donut pies.
+        annotations=[dict(text='Empresas', x=0.01, y=1, font_size=20, showarrow=False),
+                     dict(text='Empleos', x=0.30, y=1, font_size=20, showarrow=False),
+                     dict(text='Activos', x=0.7, y=1, font_size=20, showarrow=False),
+                     dict(text='Ventas', x=0.95, y=1, font_size=20, showarrow=False)])
+    return fig
+
 
 
 
@@ -150,7 +153,8 @@ def empresarial():
                         [
                             html.Div(
                                 [
-                                    html.Img(src="Dara/ctg_cifras.jpg", className="app__logo"),
+                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_cifras.jpg', 'rb').read()).decode()), className="app__logo"),
+
                                     html.H4("By Kevin Sossa", className="header__text"),
                                 ],
                                 className="app__header",
@@ -185,13 +189,35 @@ def empresarial():
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
-                                                dcc.Graph(figure=fig5),
+                                                 dcc.Slider(
+                                                        id='year-slider',
+                                                        min=2013,
+                                                        max=2020,
+                                                        value=2020,
+                                                        marks={str(year): str(year) for year in range(2013,2021)},
+                                                        step=None
+                                                    ),
+                                                dcc.Dropdown(
+                                                    id='year',
+                                                    value=2020,
+                                                    options=[{'value': x, 'label': x}
+                                                             for x in range(2013,2021)],
+                                                    clearable=False
+                                                ),
+                                                dcc.Graph(id="donut-chart"),
                                                 html.P("Values:"),
                                                 dcc.Dropdown(
                                                     id='values',
                                                     value='Empresas',
                                                     options=[{'value': x, 'label': x}
-                                                             for x in ['Empresas', 'Empleados', 'Activos','Ingresos']],
+                                                             for x in ['Empresas', 'Empleos', 'Activos','Ingresos']],
+                                                    clearable=False
+                                                ),
+                                                dcc.Dropdown(
+                                                    id='year2',
+                                                    value=2020,
+                                                    options=[{'value': x, 'label': x}
+                                                             for x in range(2013,2021)],
                                                     clearable=False
                                                 ),
                                                 dcc.Graph(id="pie-chart"),

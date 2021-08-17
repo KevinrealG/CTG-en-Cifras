@@ -3,15 +3,15 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-from empresarial import empresarial
+from empresarial import empresarial,tamano
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
-
+colors=['ffaa00', 'ffdd00', 'ff7b00','62bf41', '397224', 'e52d27' ,'b31217']
 path='Data/base de dinamica.xlsx'
-df=pd.read_excel(path,sheet_name='estructura')
+df=pd.read_excel(path,sheet_name='Actividades_1')
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -75,12 +75,14 @@ def render_page_content(pathname):
     )
 @app.callback(
     Output("pie-chart", "figure"),
-
-     Input("values", "value"),Input("url", "pathname"))
-def generate_chart(values,pathname):
-
-        fig = px.treemap( values=df[values], path=[df['Organizacion']])
-        return fig
+    Output("donut-chart", "figure"),
+     Input("values", "value"),Input("year", "value"),Input("year2", "value"))
+## aplicar lo mismo para year in tamaño
+def generate_chart(values,year,year2):
+    data=df.loc[df['Categoria']==values]
+    fig = px.treemap( values=data[year2], path=[data['Actividad']])
+    fig2 = tamano(year)
+    return fig,fig2
 
 if __name__ == "__main__":
     app.run_server(port=8888,debug=True)
