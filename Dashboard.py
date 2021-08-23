@@ -43,7 +43,10 @@ sidebar = html.Div(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
                 dbc.NavLink("Dinamica Empresarial", href="/dinamica-empresarial", active="exact"),
-                dbc.NavLink("Page 2", href="/page-2", active="exact"),
+                dbc.NavLink("Construcciones", href="/construcciones", active="exact"),
+                dbc.NavLink("Pobreza", href="/pobreza", active="exact"),
+                dbc.NavLink("Mercado Labpral", href="/mercado_lab", active="exact"),
+                dbc.NavLink("Turismo", href="/turismo", active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -63,8 +66,14 @@ def render_page_content(pathname):
         return html.P("This is the content of the home page!")
     elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
-    elif pathname == "/page-2":
-        return html.P("Oh cool, this is page 2!")
+    elif pathname == "/construcciones":
+        return  html.P("this page is empty!")
+    elif pathname == "/pobreza":
+        return  html.P("this page is empty!")
+    elif pathname == "/mercado_lab":
+        return  html.P("this page is empty!")
+    elif pathname == "/turismo":
+        return  html.P("this page is empty!")
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
