@@ -143,7 +143,12 @@ def tamano(year=2020):
                      dict(text='Ventas', x=0.95, y=1, font_size=20, showarrow=False)])
     return fig
 
-
+#Sectores and apuestas
+path2='Data/Estructura2020.xlsx'
+data3=pd.read_excel(path2,sheet_name='Base')
+df3=data3.groupby(['SECTOR','ACTIVIDAD','DIVISIÓN']).agg(Empresas=('MATRICULA', 'count'),Empleos=('EMPLEADOS', 'sum'),Activos=('TOTAL ACTIVOS', 'sum'),Ingresos=('INGRESOS', 'sum') )
+#print(df3)
+fig_sec = px.sunburst(data3, path=['SECTOR','ACTIVIDAD','DIVISIÓN'], values='EMPLEADOS')
 
 
 #app = dash.Dash()
@@ -185,18 +190,11 @@ def empresarial():
                                             ),
                                             dcc.Tab(
                                                 label="Estructura y tamaño",
-                                                value="view-entry",
+                                                value="entry",
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
-                                                 dcc.Slider(
-                                                        id='year-slider',
-                                                        min=2013,
-                                                        max=2020,
-                                                        value=2020,
-                                                        marks={str(year): str(year) for year in range(2013,2021)},
-                                                        step=None
-                                                    ),
+
                                                 dcc.Dropdown(
                                                     id='year',
                                                     value=2020,
@@ -204,7 +202,8 @@ def empresarial():
                                                              for x in range(2013,2021)],
                                                     clearable=False
                                                 ),
-                                                dcc.Graph(id="donut-chart"),
+                                                dcc.Graph(id="pie-chart"),
+                                                html.H4("Actividades por Tamaño", className="header__text"),
                                                 html.P("Values:"),
                                                 dcc.Dropdown(
                                                     id='values',
@@ -213,17 +212,33 @@ def empresarial():
                                                              for x in ['Empresas', 'Empleos', 'Activos','Ingresos']],
                                                     clearable=False
                                                 ),
+                                                html.P("Tamaño:"),
                                                 dcc.Dropdown(
-                                                    id='year2',
-                                                    value=2020,
+                                                    id='tam',
+                                                    value='Grande',
                                                     options=[{'value': x, 'label': x}
-                                                             for x in range(2013,2021)],
+                                                             for x in ['Grande', 'Mediana', 'Microempresa','Pequeña']],
                                                     clearable=False
                                                 ),
-                                                dcc.Graph(id="pie-chart"),
+                                                dcc.Graph(id="treemap-chart"),
 
 
                                                 ],
+                                            ),
+                                            dcc.Tab(
+                                            label="SECTOR",
+                                            value="view-entry",
+                                            style=tab_style,
+                                            selected_style=tab_selected_style,
+                                            children=[
+                                            html.Div(
+                                                [
+                                                    dcc.Graph(figure=fig_sec),
+
+                                                ],
+                                                className="container__1",
+                                            )
+                                            ]
                                             ),
                                         ],
                                     )
@@ -264,5 +279,12 @@ def empresarial():
             ], className='row'),
         ])
         ])"""
-
+dcc.Slider(
+       id='year-slider',
+       min=2013,
+       max=2020,
+       value=2020,
+       marks={str(year): str(year) for year in range(2013,2021)},
+       step=None
+   ),
 #app.run_server(debug=True)  # Turn off reloader if inside Jupyter
