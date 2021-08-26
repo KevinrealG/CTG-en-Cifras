@@ -4,7 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from empresarial import empresarial,tamano
-from construcciones import construcciones
+from construcciones import estratos_construcciones, construcciones
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
@@ -93,6 +93,13 @@ def generate_chart(values,year,tam):
     fig = px.treemap(values=data[tam], path=[data['ACTIVIDAD']])
     fig2 = tamano(year)
     return fig2,fig
+@app.callback(
+    Output("pie-cont", "figure"),
+     Input("trimestre", "value"),Input("year_estrato", "value"))
+## aplicar lo mismo para year in tamaño
+def cons(trimestre,year):
+    fig = estratos_construcciones(year=year,trimestre=trimestre)
+    return fig
 
 if __name__ == "__main__":
     app.run_server(port=8888,debug=True)

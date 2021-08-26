@@ -54,6 +54,34 @@ fig = go.Figure(data=[
     go.Bar(name='TOTAL', x=data['Time'], y=data['paralizada']),
 ])
 fig.update_layout(title='Area censada Paralizada, Historico')
+#figure with all columns with filter to add a different column
+data=data[['Time','culminada','proceso','paralizada']].set_index('Time')
+data=data.rename_axis('areas',axis='columns')
+figx = px.area(data, facet_col="areas", facet_col_wrap=1)
+#the same figure for estratos
+data_2=pd.read_excel(path,sheet_name='Estratos')
+data_2=data_2.loc[:,'Total':'Time'].set_index('Time')
+data_2=data_2.rename_axis('Estratos',axis='columns')
+figy = px.area(data_2, facet_col="Estratos", facet_col_wrap=2)
+#composicion por años
+data_2=pd.read_excel(path,sheet_name='Estratos')
+data_2_a=data_2.set_index(['Año','Trimestre'])
+data_2_a=data_2_a.drop(columns=['Time','Total'])
+def estratos_construcciones(year=2020,trimestre='I',data=data_2_a):
+    df2=data.loc[(year,trimestre)]
+    fig=go.Figure(go.Pie(labels=df2.index, values=df2.values, name='Estratos Distribución'))
+    fig.update_layout(title='Estratos Distribución '+str(year)+'-'+trimestre)
+
+    return fig
+
+"""dcc.Graph(id="pie-cont"),
+data_2_b=data_2.rename_axis('estratos',axis='columns')
+data_2_b=data_2_b.drop(columns=['Time','Total'])
+data_2_b=data_2_b.set_index(['Año','Trimestre'])"""
+
+#fig = px.icicle(data_2_b, path=[px.Constant("all"),data_2_b.index.get_level_values(0), .index.get_level_values(1), 'estratos'], values='total_bill')
+#fig.update_traces(root_color="lightgrey")
+#fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
 
 def construcciones():
 
@@ -81,15 +109,88 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
+                                                            dcc.Graph(figure=figx),
 
                                                             dcc.Graph(figure=fig2),
                                                             dcc.Graph(figure=fig1),
                                                             dcc.Graph(figure=fig),
+                                                            dcc.Graph(figure=figx),
                                                         ],
                                                         className="container__1",
                                                     )
                                                 ],
                                             ),
+                                            dcc.Tab(
+                                                label="Estratos",
+                                                value="data-2",
+                                                style=tab_style,
+                                                selected_style=tab_selected_style,
+                                                children=[
+                                                    html.Div(
+                                                        [
+                                                            dcc.Graph(figure=figy),
+                                                            html.H3('Año'),
+                                                            dcc.Dropdown(
+                                                                id='year_estrato',
+                                                                value=2020,
+                                                                options=[{'value': x, 'label': x}
+                                                                         for x in range(2015,2021)],
+                                                                clearable=False
+                                                            ),
+                                                            html.H3('trimestre'),
+                                                            dcc.Dropdown(
+                                                                id='trimestre',
+                                                                value='I',
+                                                                options=[{'value': x, 'label': x}
+                                                                         for x in ['I','II','III','IV']],
+                                                                clearable=False
+                                                            ),
+                                                            dcc.Graph(id="pie-cont"),
+
+
+                                                        ],
+                                                        className="container__1",
+                                                    )
+                                                ],
+                                            ),
+                                            dcc.Tab(
+                                                label="Indices",
+                                                value="data-3",
+                                                style=tab_style,
+                                                selected_style=tab_selected_style,
+                                                children=[
+                                                    html.Div(
+                                                        [
+                                                            
+
+
+                                                        ],
+                                                        className="container__1",
+                                                    )
+                                                ],
+                                            ),
+                                            dcc.Tab(
+                                                label="Destinos",
+                                                value="data-4",
+                                                style=tab_style,
+                                                selected_style=tab_selected_style,
+                                                children=[
+                                                    html.Div(
+                                                        [],
+                                                        className="container__1",
+                                                    )
+                                                ],
+                                            ),
+                                            dcc.Tab(
+                                                label="Viviendas",
+                                                value="data-4",
+                                                style=tab_style,
+                                                selected_style=tab_selected_style,
+                                                children=[
+                                                    html.Div()
+                                                ],
+                                            ),
+
 
                                         ],
                                     )
