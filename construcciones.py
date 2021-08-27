@@ -78,9 +78,10 @@ def estratos_construcciones(year=2020,trimestre='I',data=data_2_a):
 data_2_b=data_2.rename_axis('estratos',axis='columns')
 data_2_b=data_2_b.drop(columns=['Time','Total'])
 data_2_b=data_2_b.set_index(['Año','Trimestre'])"""
-
+data_4=pd.read_excel(path,sheet_name='vivienda')
+fig_new= px.icicle(data_4, path=[px.Constant("all"),'tipo','vis', 'estrato'], values='area')
 #fig = px.icicle(data_2_b, path=[px.Constant("all"),data_2_b.index.get_level_values(0), .index.get_level_values(1), 'estratos'], values='total_bill')
-#fig.update_traces(root_color="lightgrey")
+fig_new.update_traces(root_color="lightgrey")
 #fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
 
 def construcciones():
@@ -161,7 +162,7 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
-                                                            
+
 
 
                                                         ],
@@ -183,11 +184,11 @@ def construcciones():
                                             ),
                                             dcc.Tab(
                                                 label="Viviendas",
-                                                value="data-4",
+                                                value="data-5",
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
-                                                    html.Div()
+                                                    html.Div(dcc.Graph(figure=fig_new),)
                                                 ],
                                             ),
 

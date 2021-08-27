@@ -46,7 +46,7 @@ sidebar = html.Div(
                 dbc.NavLink("Dinamica Empresarial", href="/dinamica-empresarial", active="exact"),
                 dbc.NavLink("Construcciones", href="/construcciones", active="exact"),
                 dbc.NavLink("Pobreza", href="/pobreza", active="exact"),
-                dbc.NavLink("Mercado Labpral", href="/mercado_lab", active="exact"),
+                dbc.NavLink("Mercado Laboral", href="/mercado_lab", active="exact"),
                 dbc.NavLink("Turismo", href="/turismo", active="exact"),
             ],
             vertical=True,
