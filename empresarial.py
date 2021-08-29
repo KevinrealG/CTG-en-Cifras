@@ -155,7 +155,7 @@ fig_sec1 = px.icicle(data3, path=[px.Constant("all"),'SECTOR','ACTIVIDAD','TAMA�
 fig_sec1.update_layout(title='Sectores por TOTAL ACTIVOS',margin = dict(t=50, l=25, r=25, b=25))
 fig_sec_2 = px.icicle(data3, path=[px.Constant("all"),'APUESTAS','SECTOR','TAMAÑO SEGÚN INGRESO SECTOR'], values='INGRESOS')
 fig_sec_2.update_layout(title='Sectores por SEGÚN INGRESO SECTOR',margin = dict(t=50, l=25, r=25, b=25))
-fig_sec_3 = px.icicle(data3, path=[px.Constant("all"),'SECTOR','ACTIVIDAD'], values='Empresas')#count_values
+fig_sec_3 = px.icicle(data3, path=[px.Constant("all"),'APUESTAS','SECTOR','ACTIVIDAD'], values='Empresas')#count_values
 fig_sec_3.update_layout(title='Sectores por numero de EMpresas',margin = dict(t=50, l=25, r=25, b=25))
 
 #app = dash.Dash()
