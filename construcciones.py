@@ -79,10 +79,37 @@ data_2_b=data_2.rename_axis('estratos',axis='columns')
 data_2_b=data_2_b.drop(columns=['Time','Total'])
 data_2_b=data_2_b.set_index(['Año','Trimestre'])"""
 data_4=pd.read_excel(path,sheet_name='vivienda')
+
 fig_new= px.icicle(data_4, path=[px.Constant("all"),'tipo','vis', 'estrato'], values='area')
 #fig = px.icicle(data_2_b, path=[px.Constant("all"),data_2_b.index.get_level_values(0), .index.get_level_values(1), 'estratos'], values='total_bill')
-fig_new.update_traces(root_color="lightgrey")
-#fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+#fig_new.update_traces(root_color="lightgrey")
+fig_new.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+
+#Indices
+data_5=pd.read_excel(path,sheet_name='IVPcom')
+data_5=data_5.set_index('CIUDAD')
+data_5=data_5.rename_axis('Años',axis='columns')
+data_5_a=data_5.T
+
+def top_5(year=2020,df=data_5):
+    new_df=df[year]
+    new_df=new_df.sort_values(ascending=True)
+    best=new_df.head(5)
+    worst=new_df.tail(5)
+    fig_worst=fig = px.bar(best, x=best.values, y=best.index, orientation='h')
+    fig_worst.update_layout(title='Peores 5 IVP '+str(year))
+    fig_best= px.bar(worst, x=worst.values, y=worst.index, orientation='h')
+    fig_best.update_layout(title='TOP 5 IVP '+str(year))
+    Car = go.Figure(go.Indicator(
+    mode = "gauge+number",
+    value = new_df.loc['CARTAGENA'],
+    title = {'text': "IVP-CARTAGENA "+str(year)},
+    delta = {'reference': worst[4]},
+    domain = {'x': [0, 1], 'y': [0, 1]}
+        ))
+    return fig_best, fig_worst,Car
+
+
 
 def construcciones():
 
@@ -115,7 +142,7 @@ def construcciones():
                                                             dcc.Graph(figure=fig2),
                                                             dcc.Graph(figure=fig1),
                                                             dcc.Graph(figure=fig),
-                                                            dcc.Graph(figure=figx),
+                                                            dcc.Graph(figure=fig_new),
                                                         ],
                                                         className="container__1",
                                                     )
@@ -162,6 +189,24 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
+                                                        html.H3('Año'),
+                                                        dcc.Dropdown(
+                                                            id='year_estrato',
+                                                            value=2020,
+                                                            options=[{'value': x, 'label': x}
+                                                                     for x in range(2015,2021)],
+                                                            clearable=False
+                                                        ),
+                                                        html.Div([dcc.Graph(figure=fig_new),dcc.Graph(figure=fig_new)]),
+                                                        html.Div([dcc.Graph(figure=fig_new),dcc.Graph(figure=fig_new)]),
+                                                        html.H3('Ciudades'),
+                                                        dcc.Dropdown(
+                                                            id='ciudad',
+                                                            value=2020,
+                                                            options=[{'value': x, 'label': x}
+                                                                     for x in range(2015,2021)],
+                                                            clearable=False
+                                                        ),
 
 
 
@@ -188,7 +233,11 @@ def construcciones():
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
-                                                    html.Div(dcc.Graph(figure=fig_new),)
+                                                    html.Div([
+                                                    dcc.Graph(figure=fig_new)
+
+                                                    ],
+                                                    className="container__1",)
                                                 ],
                                             ),
 
