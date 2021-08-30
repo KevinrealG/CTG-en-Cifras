@@ -4,7 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from empresarial import empresarial,tamano
-from construcciones import estratos_construcciones, construcciones, top_5, Viviendas
+from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
@@ -115,5 +115,14 @@ def top(year):
 def cons(year):
     fig = Viviendas(year=year)
     return fig
+@app.callback(
+    Output("destinos_1", "figure"),
+    Output("destinos_2", "figure"),
+     Input("trimestre_des", "value"),Input("year_destino", "value"))
+## aplicar lo mismo para year in tamaño
+def dest(trimestre,year):
+    fig_1 = destinos(year=year,trimestre=trimestre)
+    fig_2 = top_5_des(year=year)
+    return fig_1, fig_2
 if __name__ == "__main__":
     app.run_server(port=8888,debug=True)

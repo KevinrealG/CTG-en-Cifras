@@ -141,7 +141,36 @@ fig_ivn = go.Figure(go.Indicator(
     domain = {'y': [0, 1], 'x': [0.25, 0.75]}))
 
 fig_ivn.add_trace(go.Scatter(x=data_6.index,y = data_6['Indice Vivienda nueva']))
-#
+#Destinos
+data_7=pd.read_excel(path,sheet_name='destinos')
+#data_6=data_6.set_index('Time')
+#data_6_a=data_6['Indice Vivienda nueva']
+def top_5_des(year=2020,df=data_7):
+    new_df=df.loc[df['año']==year]
+    new_df=new_df.groupby('des').agg(Area=('area', 'sum'))
+
+    #new_df=new_df.loc[new_df['año']==year]
+    #new_df=new_df.sort_values(by=['area'],ascending=True)
+    best=new_df.sort_values(by='Area')
+
+    best=best['Area'].tail(5)
+    fig_best= px.bar(best, x=best.index, y=best.values)
+    fig_best.update_layout(title='TOP 5 Destinos '+str(year))
+
+    return fig_best
+data_7_a=pd.read_excel(path,sheet_name='Area_proc_destino')
+
+data_7_a_1=data_7_a.loc[:,'Apartamentos':'Time'].set_index('Time')
+data_7_a_1=data_7_a_1.rename_axis('Destinos',axis='columns')
+fig_dest = px.area(data_7_a_1, facet_col="Destinos", facet_col_wrap=2)
+data_7_a_2=data_7_a.set_index(['Año','Trimestre'])
+data_7_a_2=data_7_a_2.drop(columns=['Time','Total'])
+def destinos(year=2020,trimestre='IV',df=data_7_a_2):
+    df2=df.loc[(year,trimestre)]
+    fig=go.Figure(go.Bar(x=df2.index, y=df2.values))
+    fig.update_layout(title='Área aprobada bajo licencias de construcción en Bolívar* según destinos '+str(year)+'-'+trimestre)
+    return fig
+
 def construcciones():
 
     return    html.Div(
@@ -254,7 +283,27 @@ def construcciones():
                                                 selected_style=tab_selected_style,
                                                 children=[
                                                     html.Div(
-                                                        [],
+                                                        [
+                                                        dcc.Graph(figure=fig_dest),
+                                                        html.H3('Año'),
+                                                        dcc.Dropdown(
+                                                            id='year_destino',
+                                                            value=2020,
+                                                            options=[{'value': x, 'label': x}
+                                                                     for x in range(2015,2021)],
+                                                            clearable=False
+                                                        ),
+                                                        html.H3('trimestre'),
+                                                        dcc.Dropdown(
+                                                            id='trimestre_des',
+                                                            value='I',
+                                                            options=[{'value': x, 'label': x}
+                                                                     for x in ['I','II','III','IV']],
+                                                            clearable=False
+                                                        ),
+                                                        dcc.Graph(id="destinos_2"),
+                                                        dcc.Graph(id="destinos_1"),
+                                                        ],
                                                         className="container__1",
                                                     )
                                                 ],
