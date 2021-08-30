@@ -148,11 +148,9 @@ data_7=pd.read_excel(path,sheet_name='destinos')
 def top_5_des(year=2020,df=data_7):
     new_df=df.loc[df['año']==year]
     new_df=new_df.groupby('des').agg(Area=('area', 'sum'))
-
     #new_df=new_df.loc[new_df['año']==year]
     #new_df=new_df.sort_values(by=['area'],ascending=True)
     best=new_df.sort_values(by='Area')
-
     best=best['Area'].tail(5)
     fig_best= px.bar(best, x=best.index, y=best.values)
     fig_best.update_layout(title='TOP 5 Destinos '+str(year))

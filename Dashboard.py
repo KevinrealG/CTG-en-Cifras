@@ -5,6 +5,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 from empresarial import empresarial,tamano
 from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des
+from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
@@ -70,7 +71,7 @@ def render_page_content(pathname):
     elif pathname == "/construcciones":
         return  [ construcciones()]
     elif pathname == "/pobreza":
-        return  html.P("this page is empty!")
+        return  [ pobreza()]
     elif pathname == "/mercado_lab":
         return  html.P("this page is empty!")
     elif pathname == "/turismo":
@@ -87,7 +88,6 @@ def render_page_content(pathname):
     Output("pie-chart", "figure"),
     Output("treemap-chart", "figure"),
      Input("values", "value"),Input("year", "value"),Input("tam", "value"))
-## aplicar lo mismo para year in tamaño
 def generate_chart(values,year,tam):
     data=df.loc[df['Categoria']==values]
     fig = px.treemap(values=data[tam], path=[data['ACTIVIDAD']])
@@ -96,7 +96,6 @@ def generate_chart(values,year,tam):
 @app.callback(
     Output("pie-cont", "figure"),
      Input("trimestre", "value"),Input("year_estrato", "value"))
-## aplicar lo mismo para year in tamaño
 def cons(trimestre,year):
     fig = estratos_construcciones(year=year,trimestre=trimestre)
     return fig
@@ -105,13 +104,11 @@ def cons(trimestre,year):
     Output("indice_2", "figure"),
     Output("indice_3", "figure"),
      Input("year_indice", "value"))
-## aplicar lo mismo para year in tamaño
 def top(year):
     a,b,c = top_5(year=year)
     return a,b,c
 @app.callback(
     Output("vivienda", "figure"),Input("year_vivienda", "value"))
-## aplicar lo mismo para year in tamaño
 def cons(year):
     fig = Viviendas(year=year)
     return fig
@@ -119,10 +116,29 @@ def cons(year):
     Output("destinos_1", "figure"),
     Output("destinos_2", "figure"),
      Input("trimestre_des", "value"),Input("year_destino", "value"))
-## aplicar lo mismo para year in tamaño
 def dest(trimestre,year):
     fig_1 = destinos(year=year,trimestre=trimestre)
     fig_2 = top_5_des(year=year)
     return fig_1, fig_2
+
+@app.callback(
+    Output("Lineas_1", "figure"),
+    Input("linea_drop", "value"))
+def line(linea):
+    fig_1 = lineas(Lineas=linea)
+
+    return fig_1
+@app.callback(
+    Output("Lineas_2", "figure"),
+    Input("linea_pesos", "value"))
+def line(linea):
+    fig_1 = lineas_pesos(Lineas=linea)
+
+    return fig_1
+@app.callback(
+    Output("Lineas_3", "figure"),Output("Lineas_4", "figure"),Input("year_pobre", "value"))
+def cons(year):
+    fig,fig2= Comparativo(year=year)
+    return fig,fig2
 if __name__ == "__main__":
     app.run_server(port=8888,debug=True)
