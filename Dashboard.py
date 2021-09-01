@@ -6,11 +6,17 @@ from dash.dependencies import Input, Output
 from empresarial import empresarial,tamano
 from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des
 from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
+from Mercado_lab import mercado
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
 
-app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
+#app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
+#external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+#app = dash.Dash(external_stylesheets=external_stylesheets,suppress_callback_exceptions=True)
+#[dbc.themes.LUX])
+app = dash.Dash(external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
 colors=['ffaa00', 'ffdd00', 'ff7b00','62bf41', '397224', 'e52d27' ,'b31217']
 path='Data/base de dinamica.xlsx'
 df=pd.read_excel(path,sheet_name='Acti_tamaño')
@@ -36,11 +42,9 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H2("Cartagena En Cifras", className="display-4"),
+        html.H3("Cartagena En Cifras", className="display-4"),
         html.Hr(),
-        html.P(
-            "Medible ", className="lead"
-        ),
+        
         dbc.Nav(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
@@ -73,7 +77,7 @@ def render_page_content(pathname):
     elif pathname == "/pobreza":
         return  [ pobreza()]
     elif pathname == "/mercado_lab":
-        return  html.P("this page is empty!")
+        return  [ mercado()]
     elif pathname == "/turismo":
         return  html.P("this page is empty!")
     # If the user tries to reach a different page, return a 404 message
@@ -91,6 +95,7 @@ def render_page_content(pathname):
 def generate_chart(values,year,tam):
     data=df.loc[df['Categoria']==values]
     fig = px.treemap(values=data[tam], path=[data['ACTIVIDAD']])
+    fig.update_layout(title='Actividades Economicas de empresas de tamaño '+tam+' según: '+values,margin = dict(t=50, l=25, r=25, b=25))
     fig2 = tamano(year)
     return fig2,fig
 @app.callback(
@@ -106,7 +111,7 @@ def cons(trimestre,year):
      Input("year_indice", "value"))
 def top(year):
     a,b,c = top_5(year=year)
-    return a,b,c
+    return c,a,b
 @app.callback(
     Output("vivienda", "figure"),Input("year_vivienda", "value"))
 def cons(year):

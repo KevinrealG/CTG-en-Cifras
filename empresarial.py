@@ -30,21 +30,14 @@ tab_selected_style = {
     'padding': '6px',
     'fontWeight': 'bold'
     }
-#if use px
-#fruits = ["apples", "oranges", "bananas"]
-#fig = px.line(x=fruits, y=[1,3,2], color=px.Constant("This year"),
-#             labels=dict(x="Fruit", y="Amount", color="Time Period"))
-#fig.add_bar(x=fruits, y=[2,1,3], name="Last year")
 
-#It's upload the Dinamica Data
 path='Data/base de dinamica.xlsx'
 data=pd.read_excel(path,sheet_name='Historico jurisdicción')
 
 #Figure the historico de empresas por jurisdicción
 fig = make_subplots(specs=[[{"secondary_y": True}]])
-
 fig.add_trace(
-    go.Scatter(name='Variación',
+    go.Scatter(name='Variación Anual, %',
         x=data['Año'],
         y=data['Var. Emp. Totales']
     ),
@@ -52,46 +45,44 @@ fig.add_trace(
     )
 
 fig.add_trace(
-    go.Bar(name='Empresas',
+    go.Bar(name='Numero Total de Empresas',
         x=data['Año'],
         y=data['emp_activas']
     ))
-fig.update_layout(title='Historico de Empresas',barmode='group')
+fig.update_layout(title='Número Total de Empresas y Variación Anual de La Jurisdicción, por Años',barmode='group')
 
 #figure of Variaciones
 fig1 = go.Figure(data=[
-    go.Bar(name='Empresas Nuevas', x=data['Año'], y=data['Var. Emp. Nuevas']),
-    go.Bar(name='Empresas Renovadas', x=data['Año'], y=data['Var. Emp. Renovadas'])
+    go.Bar(name='Variación Empresas Nuevas, %', x=data['Año'], y=data['Var. Emp. Nuevas']),
+    go.Bar(name='Variación Empresas Renovadas, %', x=data['Año'], y=data['Var. Emp. Renovadas'])
 ])
-# Change the bar mode
-fig1.update_layout(title='Variaciones',barmode='group')
+fig1.update_layout(title='Variaciones Anuales De Empresas Nuevas y Renovadas de La Jurisdiccion, por Años',barmode='group')
 
 #figure of Variaciones of Ingresos and Activos
 fig2 = go.Figure(data=[
     go.Bar(name='Ingresos', x=data['Año'], y=data['Ingresos_Car']),
     go.Bar(name='Activos', x=data['Año'], y=data['Activos_Car'])
 ])
-# Change the bar mode
-fig2.update_layout(title='Activos e Ingresos',barmode='group')
+fig2.update_layout(title='Activos e Ingresos Totales en Pesos de las Empresas de la Jurisdicción, por Año ')
 
 #figure of Variaciones of Empleos
 fig3 = go.Figure(data=[
-    go.Bar(name='Empleos', x=data['Año'], y=data['Empleos_Car'])
+    go.Bar(name='Empleos Totales Generados en La Jurisdicción', x=data['Año'], y=data['Empleos_Car'])
     ])
 # Change the bar mode
-fig3.update_layout(title='Empleos')
+fig3.update_layout(title='Empleos Totales Generados en La Jurisdicción')
 #Figure the historico de empresas Cartagena
 fig4 = make_subplots(specs=[[{"secondary_y": True}]])
 
 fig4.add_trace(
-    go.Scatter(name='Variación Nuevas',
+    go.Scatter(name='Variación Nuevas, %',
         x=data['Año'],
         y=data['Var. Emp. Nuevas']
     ),
     secondary_y=True,
     )
 fig4.add_trace(
-    go.Scatter(name='Variación Renovadas',
+    go.Scatter(name='Variación Renovadas, %',
         x=data['Año'],
         y=data['Var. Emp. Renovadas']
     ),
@@ -102,17 +93,9 @@ fig4.add_trace(
         x=data['Año'],
         y=data['Empresas_Car']
     ))
-fig4.update_layout(title='Historico de Empresas Cartagena',barmode='stack')
+fig4.update_layout(title='Número Total de Empresas y Variación Anual de Empresas Renovadas y Nuevas Cartagena, por Años',barmode='stack')
 
-#Estructura and tamaño
-#Create a filter for year
-#colors = ['gold', 'mediumturquoise', 'darkorange', 'lightgreen']
 
-#fig = go.Figure(data=[go.Pie(labels=['Oxygen','Hydrogen','Carbon_Dioxide','Nitrogen'],
-#                             values='filter_year'])
-#fig.update_traces(hoverinfo='label+percent', textinfo='value', textfont_size=20,
-#                  marker=dict(colors=colors, line=dict(color='#000000', width=2)))
-#make subplots
 data2=pd.read_excel(path,sheet_name='Tamaño_1')
 def df(variable,year=2020,data=data2):
         data=data.loc[data['Categoria']==variable]
@@ -135,7 +118,7 @@ def tamano(year=2020):
     #fig.update_traces(hole=.4, hoverinfo="label+percent+name")
 
     fig.update_layout(
-        title_text="Tamaño de Empresas "+str(year),
+        title_text="Distribución de Empresas de Cartagena según el tamaño en el año: "+str(year),
         # Add annotations in the center of the donut pies.
         annotations=[dict(text='Empresas', x=0.01, y=1, font_size=20, showarrow=False),
                      dict(text='Empleos', x=0.30, y=1, font_size=20, showarrow=False),
@@ -149,14 +132,14 @@ data3=pd.read_excel(path2,sheet_name='Base')
 df3=data3.groupby(['SECTOR','ACTIVIDAD','DIVISIÓN']).agg(Empresas=('MATRICULA', 'count'),Empleos=('EMPLEADOS', 'sum'),Activos=('TOTAL ACTIVOS', 'sum'),Ingresos=('INGRESOS', 'sum') )
 #print(df3)
 #Sectores
-fig_sec = px.icicle(data3, path=[px.Constant("all"),'SECTOR','ACTIVIDAD','TAMAÑO SEGÚN EMPLEO'], values='EMPLEADOS')
-fig_sec.update_layout(title='Sectores por numero de EMPLEADOS',margin = dict(t=50, l=25, r=25, b=25))
+#fig_sec = px.icicle(data3, path=[px.Constant("all"),'SECTOR','ACTIVIDAD','TAMAÑO SEGÚN EMPLEO'], values='EMPLEADOS')
+#fig_sec.update_layout(title='Sectores por numero de EMPLEADOS',margin = dict(t=50, l=25, r=25, b=25))
 fig_sec1 = px.icicle(data3, path=[px.Constant("all"),'SECTOR','ACTIVIDAD','TAMAÑO SEGÚN ACTIVOS'], values='TOTAL ACTIVOS')
-fig_sec1.update_layout(title='Sectores por TOTAL ACTIVOS',margin = dict(t=50, l=25, r=25, b=25))
-fig_sec_2 = px.icicle(data3, path=[px.Constant("all"),'APUESTAS','SECTOR','TAMAÑO SEGÚN INGRESO SECTOR'], values='INGRESOS')
-fig_sec_2.update_layout(title='Sectores por SEGÚN INGRESO SECTOR',margin = dict(t=50, l=25, r=25, b=25))
+fig_sec1.update_layout(title='Composición de los Sectores Economicos de la Jurisdicción, según Total de Activos',margin = dict(t=50, l=25, r=25, b=25))
+#fig_sec_2 = px.icicle(data3, path=[px.Constant("all"),'APUESTAS','SECTOR','TAMAÑO SEGÚN INGRESO SECTOR'], values='INGRESOS')
+#fig_sec_2.update_layout(title='Sectores por SEGÚN INGRESO SECTOR',margin = dict(t=50, l=25, r=25, b=25))
 fig_sec_3 = px.icicle(data3, path=[px.Constant("all"),'APUESTAS','SECTOR','ACTIVIDAD'], values='Empresas')#count_values
-fig_sec_3.update_layout(title='Sectores por numero de EMpresas',margin = dict(t=50, l=25, r=25, b=25))
+fig_sec_3.update_layout(title='Composición de las APUESTAS, según el Numero Total de Empresas',margin = dict(t=50, l=25, r=25, b=25))
 
 #app = dash.Dash()
 def empresarial():
@@ -185,11 +168,11 @@ def empresarial():
                                                 children=[
                                                     html.Div(
                                                         [
+                                                            dcc.Graph(figure=fig4),
                                                             dcc.Graph(figure=fig),
                                                             dcc.Graph(figure=fig1),
                                                             dcc.Graph(figure=fig2),
                                                             dcc.Graph(figure=fig3),
-                                                            dcc.Graph(figure=fig4),
                                                         ],
                                                         className="container__1",
                                                     )
@@ -201,6 +184,7 @@ def empresarial():
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
+                                                html.H4("Seleccione el Año:"),
 
                                                 dcc.Dropdown(
                                                     id='year',
@@ -210,8 +194,8 @@ def empresarial():
                                                     clearable=False
                                                 ),
                                                 dcc.Graph(id="pie-chart"),
-                                                html.H4("Actividades por Tamaño", className="header__text"),
-                                                html.P("Values:"),
+                                                html.H4("Composición de las Empresas de Cartagena según el tamaño y las Actividades Economicas", className="header__text"),
+                                                html.P("Seleccione la variable de comparación:"),
                                                 dcc.Dropdown(
                                                     id='values',
                                                     value='Empresas',
@@ -219,7 +203,7 @@ def empresarial():
                                                              for x in ['Empresas', 'Empleos', 'Activos','Ingresos']],
                                                     clearable=False
                                                 ),
-                                                html.P("Tamaño:"),
+                                                html.P("Seleccione el Tamaño de las Empresas:"),
                                                 dcc.Dropdown(
                                                     id='tam',
                                                     value='Grande',
@@ -240,9 +224,9 @@ def empresarial():
                                             children=[
                                             html.Div(
                                                 [
-                                                    dcc.Graph(figure=fig_sec),
+                                                    #dcc.Graph(figure=fig_sec),
                                                     dcc.Graph(figure=fig_sec1),
-                                                    dcc.Graph(figure=fig_sec_2),
+                                                    #dcc.Graph(figure=fig_sec_2),
                                                     dcc.Graph(figure=fig_sec_3),
 
                                                 ],

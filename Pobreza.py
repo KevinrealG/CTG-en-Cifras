@@ -108,19 +108,19 @@ def Comparativo(year=2020,df=data_3_a,df1=data_3_b):
     #best=new_df.head(5)
     #best=new_df.tail(5)
     fig = px.bar(new_df, x=new_df.values, y=new_df.index, orientation='h')
-    fig.update_layout(title='Comparativo Pobreza Monetaria '+str(year))
+    fig.update_layout(title='Comparativo Pobreza Extrema '+str(year))
     fig_best= px.bar(new, x=new.values, y=new.index, orientation='h')
-    fig_best.update_layout(title='Comparativo Pobreza Extrema '+str(year))
+    fig_best.update_layout(title='Comparativo Pobreza Monetaria  '+str(year))
 
     return fig, fig_best
 data_4=pd.read_excel(path,sheet_name='deficit por')
 fig_4 = px.bar(data_4, x=data_4['Tipo'], y=data_4['Deficit'],color="Tipo de deficit")
-fig_4.update_layout(title='Deficit Habitacional Cartagena',barmode='group')
+fig_4.update_layout(title='Composición de Deficit Habitacional Cartagena',barmode='group')
 
 data_5=pd.read_excel(path,sheet_name='deficit ciudades')
 fig5 = go.Figure(data=[
-    go.Bar(name='Deficit cuantitativo', x=data_5['Nombre Municipio'], y=data_5['Déficit cuantitativo']),
-    go.Bar(name='Deficit cualitativo', x=data_5['Nombre Municipio'], y=data_5['Déficit cualitativo'])
+    go.Bar(name='Deficit cuantitativo, en número de casas', x=data_5['Nombre Municipio'], y=data_5['Déficit cuantitativo']),
+    go.Bar(name='Deficit cualitativo, en número de casas', x=data_5['Nombre Municipio'], y=data_5['Déficit cualitativo'])
 ])
 # Change the bar mode
 fig5.update_layout(title='Camparación de Deficit Habitacional, Ciudades principales',barmode='stack')
@@ -162,7 +162,7 @@ def pobreza():
                                 [
                                     dcc.Tabs(
                                         id="tabs",
-                                        value="data-entry",
+                                        value="data_1",
                                         children=[
                                             dcc.Tab(
                                                 label="Lineas de Pobreza",
@@ -216,13 +216,13 @@ def pobreza():
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
-
-
-                                                dcc.Graph(figure=fig_4),
-                                                dcc.Graph(figure=fig5),
+                                                dcc.Graph(figure=Car_3),
                                                 dcc.Graph(figure=Car_1),
                                                 dcc.Graph(figure=Car_2),
-                                                dcc.Graph(figure=Car_3),
+                                                dcc.Graph(figure=fig_4),
+                                                dcc.Graph(figure=fig5),
+
+
 
 
 

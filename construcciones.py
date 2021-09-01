@@ -70,7 +70,7 @@ data_2_a=data_2_a.drop(columns=['Time','Total'])
 def estratos_construcciones(year=2020,trimestre='I',data=data_2_a):
     df2=data.loc[(year,trimestre)]
     fig=go.Figure(go.Pie(labels=df2.index, values=df2.values, name='Estratos Distribución'))
-    fig.update_layout(title='Estratos Distribución '+str(year)+'-'+trimestre)
+    fig.update_layout(title='Distribución del Area Censada en el Año-Trimestre: '+str(year)+'-'+trimestre)
 
     return fig
 
@@ -88,11 +88,18 @@ fig_new.update_layout(margin = dict(t=50, l=25, r=25, b=25))
 data_4_b=pd.read_excel(path,sheet_name='Vis_no')
 def Viviendas(year=2020,df=data_4):
     data=df.loc[df['año']==year]
+    df1=data.groupby('vis').agg(Area=('area', 'sum'),Unidades=('unidades','sum'))
+    df2=data.groupby('tipo').agg(Area=('area', 'sum'),Unidades=('unidades','sum'))
+    #new_df=new_df.loc[new_df['año']==year]
+    #new_df=new_df.sort_values(by=['area'],ascending=True)
+    #best=new_df.sort_values(by='Area')
+    #best=best['Area'].tail(5)
+    #fig_best= px.bar(best, x=best.index, y=best.values)
     fig = make_subplots(rows=2, cols=2, specs=[[{}, {}],[{}, {}]],subplot_titles=("Plot 1", "Plot 2", "Plot 3", "Plot 4"))
-    fig.add_trace(go.Bar(x=data['vis'], y=data['area']), 1, 1)
-    fig.add_trace(go.Bar(x=data['vis'], y=data['unidades']),  1, 2)
-    fig.add_trace(go.Bar(x=data['tipo'], y=data['area']), 2, 1)
-    fig.add_trace(go.Bar(x=data['tipo'], y=data['unidades']),  2, 2)
+    fig.add_trace(go.Bar(name='Vis o No Vis, por area en m2',x=df1.index, y=df1['Area']), 1, 1)
+    fig.add_trace(go.Bar(name='Vis o No Vis, por unidades',x=df1.index, y=df1['Unidades']),  1, 2)
+    fig.add_trace(go.Bar(name='Tipo de Vivienda, por area en m2',x=df2.index, y=df2['Area']), 2, 1)
+    fig.add_trace(go.Bar(name='Tipo de Vivienda, por unidades',x=df2.index, y=df2['Unidades']),  2, 2)
 
     # Use `hole` to create a donut-like pie chart
     #fig.update_traces(hole=.4, hoverinfo="label+percent+name")
@@ -101,7 +108,7 @@ def Viviendas(year=2020,df=data_4):
         title_text="Licencias de de Viviendas "+str(year),
         # Add annotations in the center of the donut pies.
         annotations=[dict(text='Area', x=0.01, y=1, font_size=20, showarrow=False),
-                     dict(text='Unidades', x=0.30, y=1, font_size=20, showarrow=False)])
+                     dict(text='Unidades', x=0.70, y=1, font_size=20, showarrow=False)])
     return fig
 #Indices
 data_5=pd.read_excel(path,sheet_name='IVPcom')
@@ -137,7 +144,7 @@ fig_ivn = go.Figure(go.Indicator(
     mode = "number+delta",
     value = data_6_a[data_6_a.size-1],
     delta = {"reference":  data_6_a[data_6_a.size-2], "valueformat": ".0f"},
-    title = {"text": "Indice de Vivienda Nueva"},
+    title = {"text": "Crecimiento Anual"},
     domain = {'y': [0, 1], 'x': [0.25, 0.75]}))
 
 fig_ivn.add_trace(go.Scatter(x=data_6.index,y = data_6['Indice Vivienda nueva']))
@@ -166,7 +173,7 @@ data_7_a_2=data_7_a_2.drop(columns=['Time','Total'])
 def destinos(year=2020,trimestre='IV',df=data_7_a_2):
     df2=df.loc[(year,trimestre)]
     fig=go.Figure(go.Bar(x=df2.index, y=df2.values))
-    fig.update_layout(title='Área aprobada bajo licencias de construcción en Bolívar* según destinos '+str(year)+'-'+trimestre)
+    fig.update_layout(title='Área aprobada bajo licencias de construcción en Cartagena* según destinos '+str(year)+'-'+trimestre)
     return fig
 
 def construcciones():
@@ -195,12 +202,16 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
+                                                            html.H4("Estructura General Censo de Edificaciones según Estado de Obra,por area(m2) y años"),
                                                             dcc.Graph(figure=figx),
+                                                            html.H4("Area Censada Total y composicion por Estado de Obra, en m2"),
 
                                                             dcc.Graph(figure=fig2),
+                                                            html.H4("Area Censada Total en Proceso mas Nueva, Continúa y Reinicia en Proceso, en m2 y por Años"),
                                                             dcc.Graph(figure=fig1),
+                                                            html.H4("Area Censada Total Paralizada mas  Continúa y Nueva Paralizada, en m2 y por Años"),
                                                             dcc.Graph(figure=fig),
-                                                            dcc.Graph(figure=fig_new),
+
                                                         ],
                                                         className="container__1",
                                                     )
@@ -214,8 +225,12 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
+
+
+                                                            html.H4("Area Censada Total en Proceso y Distribución según estrato, en m2 y por Años"),
                                                             dcc.Graph(figure=figy),
-                                                            html.H3('Año'),
+                                                            html.H3("Distribución de Area Total en Proceso según estrato, en m2, por Año y Trimestre"),
+                                                            html.H4('Seleccione el Año'),
                                                             dcc.Dropdown(
                                                                 id='year_estrato',
                                                                 value=2020,
@@ -223,7 +238,8 @@ def construcciones():
                                                                          for x in range(2015,2021)],
                                                                 clearable=False
                                                             ),
-                                                            html.H3('trimestre'),
+
+                                                            html.H4('Seleccione el Trimestre'),
                                                             dcc.Dropdown(
                                                                 id='trimestre',
                                                                 value='I',
@@ -247,7 +263,8 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
-                                                        html.H3('Año'),
+                                                        html.H3('Indice de Valoración Predial'),
+                                                        html.H4('Seleccione el Año'),
                                                         dcc.Dropdown(
                                                             id='year_indice',
                                                             value=2020,
@@ -257,18 +274,8 @@ def construcciones():
                                                         ),
                                                         html.Div([dcc.Graph(id='indice_1'),dcc.Graph(id='indice_2')]),
                                                         html.Div([dcc.Graph(id='indice_3'),dcc.Graph(id='indice_4',figure=fig_ind)]),
+                                                        html.H3('Indice de Vivienda de Nueva'),
                                                         html.Div([dcc.Graph(id='indice_5',figure=fig_ivn)]),
-                                                        html.H3('Ciudades'),
-                                                        dcc.Dropdown(
-                                                            id='ciudad',
-                                                            value=2020,
-                                                            options=[{'value': x, 'label': x}
-                                                                     for x in range(2015,2021)],
-                                                            clearable=False
-                                                        ),
-
-
-
                                                         ],
                                                         className="container__1",
                                                     )
@@ -282,8 +289,10 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
+                                                        html.H3("Distribución Historica de Area Total Censada en Proceso según Destino, en m2"),
                                                         dcc.Graph(figure=fig_dest),
-                                                        html.H3('Año'),
+                                                        html.H3("Top 5 destinos de Area Censada y Distribución de Areas por destinos, por año y trimestre seleccionado "),
+                                                        html.H4('Seleccione el Año'),
                                                         dcc.Dropdown(
                                                             id='year_destino',
                                                             value=2020,
@@ -291,7 +300,7 @@ def construcciones():
                                                                      for x in range(2015,2021)],
                                                             clearable=False
                                                         ),
-                                                        html.H3('trimestre'),
+                                                        html.H4('Seleccione el trimestre'),
                                                         dcc.Dropdown(
                                                             id='trimestre_des',
                                                             value='I',
@@ -313,7 +322,8 @@ def construcciones():
                                                 selected_style=tab_selected_style,
                                                 children=[
                                                     html.Div([
-                                                    html.H3('Año'),
+                                                    html.H3('Distribución de las licencias de Construcciones para Viviendas, por año'),
+                                                    html.H4('Seleccione Año'),
                                                     dcc.Dropdown(
                                                         id='year_vivienda',
                                                         value=2020,
@@ -322,6 +332,7 @@ def construcciones():
                                                         clearable=False
                                                     ),
                                                     dcc.Graph(id='vivienda'),
+                                                    html.H3('Composición de las licencias de Construcciones para Viviendas,  por tipo de vivienda, Vis o No vis, y estratos, en m2'),
                                                     dcc.Graph(figure=fig_new),
 
                                                     ],
