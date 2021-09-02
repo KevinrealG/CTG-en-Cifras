@@ -7,6 +7,7 @@ from empresarial import empresarial,tamano
 from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
 from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
 from Mercado_lab import mercado, acti_merc
+from Turismo import Turismo
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
@@ -79,7 +80,7 @@ def render_page_content(pathname):
     elif pathname == "/mercado_lab":
         return  [ mercado()]
     elif pathname == "/turismo":
-        return  html.P("this page is empty!")
+        return [ Turismo()]
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [

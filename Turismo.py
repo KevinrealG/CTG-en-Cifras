@@ -32,7 +32,34 @@ tab_selected_style = {
     }
 
 path='Data/Turismo_consolidado_13.8.21.xlsx'
+df_1=pd.read_excel(path,sheet_name='Ocupación_mensual')
 
+df_1['date']= pd.to_datetime(df_1[["year", "month", "day"]])
+#df_2=df_1.loc[df_1['year']==2020]
+animada_ocup=px.bar(df_1, x='x', y="Ocupación", animation_frame="linea", animation_group="date",range_y=[0,100])
+animada_ocup.update_layout(title='Ocupación Hotelera en Cartagena %, mensual')
+
+fig1 = go.Figure(data=[
+    go.Bar(name='Vacaciones, Ocio y Recreo', x=df_1['date'], y=df_1['Vacaciones, Ocio y Recreo']),
+    go.Bar(name='Trabajo y Negocios ', x=df_1['date'], y=df_1['Trabajo y Negocios ']),
+    go.Bar(name='Salud y atención médica', x=df_1['date'], y=df_1['Salud y atención médica']),
+    go.Bar(name='Convenciones (MICE)', x=df_1['date'], y=df_1['Convenciones (MICE)']),
+    go.Bar(name='**Amercos ', x=df_1['date'], y=df_1['**Amercos ']),
+    go.Bar(name='Otros', x=df_1['date'], y=df_1['Otros']),
+])
+fig1.update_layout(title='historico de motivos de Viajes',barmode='stack')
+df_2=pd.read_excel(path,sheet_name='sa_csa')
+
+fig_2=px.area( x=df_1['date'], y=df_1['Ocupación'])
+fig_2.update_layout(title='Ocupación Hotelera en Cartagena %, mensual')
+fig_3 = go.Figure(data=[
+    go.Bar(name='Salidas', x=df_2['Fecha'], y=df_2['Salidas']),
+    go.Bar(name='Llegadas ', x=df_2['Fecha'], y=df_2['Llegadas']),
+
+])
+fig_3.update_layout(title='Pasajeros llegados y salidos, mensual',barmode='group')
+#fig = px.bar(df, x="date", y=['Vacaciones, Ocio y Recreo',Trabajo y Negocios'], color="columns",
+ #animation_frame="year", animation_group="country", range_y=[0,4000000000])
 def Turismo():
 
     return    html.Div(
@@ -52,14 +79,20 @@ def Turismo():
                                         value="data-entry",
                                         children=[
                                             dcc.Tab(
-                                                label="Viajes",
+                                                label="Ocupación Hotelera",
                                                 value="data-entry",
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
                                                     html.Div(
                                                         [
-                                                            dcc.Graph(),
+
+                                                            html.H3('Ocupación Hotelera'),
+                                                            dcc.Graph(figure=fig_2),
+
+                                                            dcc.Graph(figure=animada_ocup),
+                                                            html.H4('Motivos de Viajes'),
+                                                            dcc.Graph(figure=fig1),
 
                                                         ],
                                                         className="container__1",
@@ -71,7 +104,9 @@ def Turismo():
                                                 value="entry",
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
-                                                children=[],
+                                                children=[
+                                                dcc.Graph(figure=fig_3)
+                                                ],
                                             ),
                                             dcc.Tab(
                                             label="Cruceros",
@@ -81,7 +116,7 @@ def Turismo():
                                             children=[
                                             html.Div(
                                                 [
-                                                    
+
 
                                                 ],
                                                 className="container__1",
