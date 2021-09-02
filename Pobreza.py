@@ -77,7 +77,7 @@ def lineas_pesos(Lineas,df=data_2):
         mode = "number+delta",
         value = data['Cartagena'][data['Año'].size-1],
         delta = {"reference":  data['Cartagena'][data['Año'].size-2], "valueformat": ".0f"},
-        title = {"text": "Resultado"},
+        title = {"text": "Resultado "+str(data['Año'][data['Año'].size-1],)},
         domain = {'y': [0, 1], 'x': [0.25, 0.75]})
         )
 

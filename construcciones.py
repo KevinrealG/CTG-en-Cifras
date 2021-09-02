@@ -148,6 +148,46 @@ fig_ivn = go.Figure(go.Indicator(
     domain = {'y': [0, 1], 'x': [0.25, 0.75]}))
 
 fig_ivn.add_trace(go.Scatter(x=data_6.index,y = data_6['Indice Vivienda nueva']))
+data_8=pd.read_excel(path,sheet_name='ICCV_anual')
+data_9=pd.read_excel(path,sheet_name='ICCV_ciudades_anual')
+
+def ICCV(tipo,df=data_8,df_2=data_9):
+    data=df
+    data_2=df_2.loc[df_2['Ciudades']=='Cartagena']
+
+
+    title=''
+    if tipo=='Total':
+        title='Variación anual total ICCV '
+    elif Lineas=='Vivienda unifamiliar':
+        title='Variación anual ICCV para Vivienda unifamiliar'
+    elif Lineas=='Vivienda multifamiliar':
+        title='Variación anual ICCV para Vivienda unifamiliar'
+    else:
+        title='Variación anual ICCV para VIS'
+
+
+    fig_ivn = go.Figure(go.Indicator(
+
+        mode = "number+delta",
+        value = data[tipo][data['Años'].size-1],
+        delta = {"reference":  data[tipo][data['Años'].size-2], "valueformat": ".0f"},
+        title = {"text": "Resultado "+str(data['Años'][data['Años'].size-1],)},
+        domain = {'y': [0, 1], 'x': [0.25, 0.75]})
+        )
+
+    fig_ivn.add_trace(go.Scatter(x=data['Años'],y = data[tipo], fill='tozeroy'))
+    fig_ivn.update_layout(title=title)
+    fig_2 = go.Figure(go.Indicator(
+
+        mode = "gauge+number",
+        value = data_2[tipo].values[0],
+        #delta = {"reference":  data[tipo][data['Años'].size-2], "valueformat": ".0f"},
+        title = {"text": "Resultado "+str(data['Años'][data['Años'].size-1],)},
+        domain = {'y': [0, 1], 'x': [0.25, 0.75]})
+        )
+
+    return fig_ivn, fig_2
 #Destinos
 data_7=pd.read_excel(path,sheet_name='destinos')
 #data_6=data_6.set_index('Time')
@@ -276,6 +316,21 @@ def construcciones():
                                                         html.Div([dcc.Graph(id='indice_3'),dcc.Graph(id='indice_4',figure=fig_ind)]),
                                                         html.H3('Indice de Vivienda de Nueva'),
                                                         html.Div([dcc.Graph(id='indice_5',figure=fig_ivn)]),
+
+                                                        html.H3('Variación Anual Indice de Costos de Construcción de Vivienda'),
+                                                        html.H4('Seleccione el tipo de Vivienda: '),
+                                                        dcc.Dropdown(
+                                                            id='ICCV',
+                                                            value='Total',
+                                                            options=[{'value': x, 'label': x}
+                                                                     for x in ['Total','Vivienda unifamiliar','Vivienda multifamiliar','VIS']],
+                                                            clearable=False
+                                                        ),
+                                                        html.H4('ICCV en CARTAGENA: '),
+                                                        dcc.Graph(id='ICCV_1'),
+                                                        dcc.Graph(id='ICCV_2'),
+
+
                                                         ],
                                                         className="container__1",
                                                     )

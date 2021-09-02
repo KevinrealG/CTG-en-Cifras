@@ -4,9 +4,9 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from empresarial import empresarial,tamano
-from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des
+from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
 from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
-from Mercado_lab import mercado
+from Mercado_lab import mercado, acti_merc
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
@@ -42,9 +42,9 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H3("Cartagena En Cifras", className="display-4"),
+        html.H4("Cartagena En Cifras", className="display-4"),
         html.Hr(),
-        
+
         dbc.Nav(
             [
                 dbc.NavLink("Home", href="/", active="exact"),
@@ -141,9 +141,24 @@ def line(linea):
 
     return fig_1
 @app.callback(
+    Output("Ocupación_3", "figure"),
+    Input("year_mercado", "value"))
+def acti_mer(year):
+    fig_1 = acti_merc(year=year)
+
+    return fig_1
+@app.callback(
     Output("Lineas_3", "figure"),Output("Lineas_4", "figure"),Input("year_pobre", "value"))
 def cons(year):
     fig,fig2= Comparativo(year=year)
     return fig,fig2
+@app.callback(
+    Output("ICCV_1", "figure"),
+    Output("ICCV_2", "figure"),
+
+     Input("ICCV", "value"))
+def iccv(tipo):
+    a,b = ICCV(tipo=tipo)
+    return b,a
 if __name__ == "__main__":
     app.run_server(port=8888,debug=True)
