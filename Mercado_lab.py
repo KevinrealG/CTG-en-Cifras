@@ -146,7 +146,7 @@ Car_2 = go.Figure(go.Indicator(
 mode = "gauge+number",
 value =  data_4['Informales'][data_4['AÑO'].size-1],
 title = {'text': "Tasa de Desempleo"},
-delta = {'reference':  data_4['Informales'][data_4['AÑO'].size-2]},
+delta = {'reference':  data_4['Informales'][data_4['AÑO'].size-2],'relative': True},
 domain = {'x': [0, 1], 'y': [0, 1]}
     ))
 

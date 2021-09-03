@@ -7,7 +7,7 @@ from empresarial import empresarial,tamano
 from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
 from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
 from Mercado_lab import mercado, acti_merc
-from Turismo import Turismo
+from Turismo import Turismo, sac_dis
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
@@ -105,6 +105,13 @@ def generate_chart(values,year,tam):
 def cons(trimestre,year):
     fig = estratos_construcciones(year=year,trimestre=trimestre)
     return fig
+@app.callback(
+    Output("sacsa", "figure"),
+    Output("sacsa_1", "figure"),
+     Input("month_sac", "value"),Input("year_sac", "value"))
+def cons(month,year):
+    fig,b = sac_dis(year=year,mes=month)
+    return fig,b
 @app.callback(
     Output("indice_1", "figure"),
     Output("indice_2", "figure"),
