@@ -7,7 +7,7 @@ from empresarial import empresarial,tamano
 from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
 from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
 from Mercado_lab import mercado, acti_merc
-from Turismo import Turismo, sac_dis
+from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px

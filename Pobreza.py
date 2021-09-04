@@ -234,5 +234,5 @@ def pobreza():
                                 className="tabs__container",
                             ),
                         ],
-                        className="app__container",
+                        className="page__container",
                     )

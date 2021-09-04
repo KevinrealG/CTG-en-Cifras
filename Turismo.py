@@ -98,6 +98,86 @@ df_4_b=df_4_b.rename_axis('regiones',axis='columns')
 
 
 fig_sal_com=px.area(df_4_b, facet_col="regiones", facet_col_wrap=2)
+#Cruceros
+df_5=pd.read_excel(path,sheet_name='Cruceros')
+def cruceros_mensual(Categoria,year='2020',df=df_5):
+    data=df.loc[df['Categoria']==Categoria].reset_index()
+    if Categoria=='Recaladas':
+        title='Recaladas mesuales en la Terminal de Cruceros Cartagena en el Año: '+str(year)
+    elif Categoria=='Pasajeros':
+        title='Pasajeros mesuales en la Terminal de Cruceros Cartagena en el Año: '+str(year)
+    elif Categoria=='Pasajeros en Transito':
+        title='Pasajeros en Transito mesuales en el Año: '+str(year)
+    elif Categoria=='Pasajeros Enbarcados':
+        title='Pasajeros Enbarcados mesuales en el Año: '+str(year)
+    elif Categoria=='Tripulantes':
+        title='Tripulantes de los Cruceros en el Año: '+str(year)
+    data=data.loc[0:11,:]
+    fig_ivn = go.Figure()
+    fig_ivn.add_trace(go.Scatter(x=data['Mes'],y = data[year]))
+    fig_ivn.update_layout(title=title)
+    return fig_ivn
+df_6=pd.read_excel(path,sheet_name='cruceros_resumen').set_index('Categoria')
+df_6=df_6.rename_axis('año',axis='columns')
+
+def cruceros_anual_total(Categoria,df=df_6):
+    #data=df.set_index('Categoria')
+    data=df.loc[Categoria]
+    if Categoria=='Recaladas':
+        title='Numero Total de barcos por Años'
+    elif Categoria=='Pasajeros':
+        title='Total de Pasajeros por Años'
+    elif Categoria=='Pasajeros en Transito':
+        title='Total de Pasajeros en Tránsito por Años'
+    elif Categoria=='Pasajeros Enbarcados':
+        title='Total de Pasajeros Enbarcados por Años'
+    elif Categoria=='Tripulantes':
+        title='Total de Tripulantes por Años'
+
+    fig_ivn = go.Figure()
+    fig_ivn.add_trace(go.Scatter(x=data.index,y = data.values))
+    fig_ivn.update_layout(title=title)
+    return fig_ivn
+data_1=df_6.loc['Pasajeros mas Tripulantes']
+data_2=df_6.loc['Promedio Pasajeros Por Recalada']
+data_3=df_6.loc['Tripulantes / Pasajeros']
+Pas_tri = go.Figure(go.Indicator(
+
+    mode = "number+delta",
+    value = data_1.loc['2020'],
+    #value = data_1[2020].values,
+    delta = {"reference":  data_1['2019'], "valueformat": ".2f",'relative': True},
+    title = {"text": "Resultado 2020"},
+    domain = {'y': [0, 1], 'x': [0.25, 0.75]})
+    )
+
+Pas_tri.add_trace(go.Scatter(x=data_1.index,y = data_1.values))
+Pas_tri.update_layout(title='Total de Pasajeros mas Tripulantes por Años')
+
+prom = go.Figure(go.Indicator(
+
+    mode = "number+delta",
+    value = data_2['2019'],
+    #value = data_1[2020],
+    delta = {"reference":  data_2['2019'], "valueformat": ".2f",'relative': True},
+    title = {"text": "Resultado 2020"},
+    domain = {'y': [0, 1], 'x': [0.25, 0.75]})
+    )
+
+prom.add_trace(go.Scatter(x=data_2.index,y = data_2.values))
+prom.update_layout(title='Promedio Anual de Pasajeros Por Recalada ')
+ratio = go.Figure(go.Indicator(
+
+    mode = "number+delta",
+    value = data_3['2020'],
+    #value = data_1[2020],
+    delta = {"reference":  data_3['2019'], "valueformat": ".2f",'relative': True},
+    title = {"text": "Resultado 2020"},
+    domain = {'y': [0, 1], 'x': [0.25, 0.75]})
+    )
+
+ratio.add_trace(go.Scatter(x=data_3.index,y = data_3.values))
+ratio.update_layout(title='Tasa Anual de Tripulantes por Pasajeros')
 #fig = px.bar(df, x="date", y=['Vacaciones, Ocio y Recreo',Trabajo y Negocios'], color="columns",
  #animation_frame="year", animation_group="country", range_y=[0,4000000000])
 def Turismo():
@@ -180,6 +260,27 @@ def Turismo():
                                             children=[
                                             html.Div(
                                                 [
+                                                dcc.Graph(id='cruceros_1', figure=Pas_tri),
+                                                dcc.Graph(id='cruceros_2', figure=prom),
+                                                html.H4('Seleccione la variable: '),
+                                                dcc.Dropdown(
+                                                    id='variable_cru',
+                                                    value='Recaladas',
+                                                    options=[{'value': x, 'label': x}
+                                                             for x in df_5['Categoria'].unique()],
+                                                    clearable=False
+                                                ),
+                                                dcc.Graph(id='cruceros_3'),
+                                                dcc.Dropdown(
+                                                    id='year_cru',
+                                                    value=2020,
+                                                    options=[{'value': x, 'label': x}
+                                                             for x in range(2010,2021)],
+                                                    clearable=False
+                                                ),
+
+                                                dcc.Graph(id='cruceros_4'),
+                                                dcc.Graph(id='cruceros_5', figure=ratio),
 
 
                                                 ],
@@ -214,5 +315,5 @@ def Turismo():
                                 className="tabs__container",
                             ),
                         ],
-                        className="app__container",
+                        className="page__container",
                     )

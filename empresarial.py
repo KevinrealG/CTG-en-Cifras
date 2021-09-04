@@ -240,7 +240,7 @@ def empresarial():
                                 className="tabs__container",
                             ),
                         ],
-                        className="app__container",
+                        className="page__container",
                     )
 
 """html.Div(children=[
