@@ -10,26 +10,31 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+
 tabs_styles = {
     'height': '44px',
     'margin-left': 500,
     'margin-right':500,
     'color':'black',
-    'background': 'rgb(210, 232, 255)'
+    'background': 'rgb(229,45,39)'
 }
 tab_style = {
     'border': 'None',
     'padding': '6px',
-    'background':'rgb(210, 232, 255)', #AZUL CLARO
+    'background':'rgb(229,45,39)', #rojo CLARO
 }
 tab_selected_style = {
     'borderTop': '1px solid #d6d6d6',
     #'borderBottom': '1px solid #d6d6d6',
-    'background-color':'rgb(5, 112, 174)', #AZUL FUERTE
+    'background-color':'rgb(179, 18, 23)', #rojo FUERTE
     'color': 'white',
     'padding': '6px',
     'fontWeight': 'bold'
     }
+title_style={
+    'textAlign': 'center',
+    'color':'black'
+}
 
 #It's upload the construcciones Data
 path='Data/Construcciones.xlsx'
@@ -222,11 +227,15 @@ def construcciones():
                         [
                             html.Div(
                                 [
-                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_cifras.jpg', 'rb').read()).decode()), className="app__logo"),
+                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_or.jpg', 'rb').read()).decode()), className="app__logo", width=200),
 
                                     html.H4("By Kevin Sossa", className="header__text"),
                                 ],
-                                className="app__header",
+                                className="Banner",
+                                style={
+                                    'textAlign': 'center',
+                                    'color':'black'
+                                },
                             ),
                             html.Div(
                                 [
@@ -267,9 +276,9 @@ def construcciones():
                                                         [
 
 
-                                                            html.H4("Area Censada Total en Proceso y Distribución según estrato, en m2 y por Años"),
+                                                            html.H3("Area Censada Total en Proceso y Distribución según estrato, en m2 y por Años",style=title_style),
                                                             dcc.Graph(figure=figy),
-                                                            html.H3("Distribución de Area Total en Proceso según estrato, en m2, por Año y Trimestre"),
+                                                            html.H3("Distribución de Area Total en Proceso según estrato, en m2, por Año y Trimestre",style=title_style),
                                                             html.H4('Seleccione el Año'),
                                                             dcc.Dropdown(
                                                                 id='year_estrato',
@@ -303,7 +312,7 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
-                                                        html.H3('Indice de Valoración Predial'),
+                                                        html.H3('Indice de Valoración Predial',style=title_style),
                                                         html.H4('Seleccione el Año'),
                                                         dcc.Dropdown(
                                                             id='year_indice',
@@ -314,7 +323,7 @@ def construcciones():
                                                         ),
                                                         html.Div([dcc.Graph(id='indice_1'),dcc.Graph(id='indice_2')]),
                                                         html.Div([dcc.Graph(id='indice_3'),dcc.Graph(id='indice_4',figure=fig_ind)]),
-                                                        html.H3('Indice de Vivienda de Nueva'),
+                                                        html.H3('Indice de Vivienda de Nueva',style=title_style),
                                                         html.Div([dcc.Graph(id='indice_5',figure=fig_ivn)]),
 
                                                         html.H3('Variación Anual Indice de Costos de Construcción de Vivienda'),
@@ -344,9 +353,9 @@ def construcciones():
                                                 children=[
                                                     html.Div(
                                                         [
-                                                        html.H3("Distribución Historica de Area Total Censada en Proceso según Destino, en m2"),
+                                                        html.H3("Distribución Historica de Area Total Censada en Proceso según Destino, en m2",style=title_style),
                                                         dcc.Graph(figure=fig_dest),
-                                                        html.H3("Top 5 destinos de Area Censada y Distribución de Areas por destinos, por año y trimestre seleccionado "),
+                                                        html.H3("Top 5 destinos de Area Censada y Distribución de Areas por destinos, por año y trimestre seleccionado ",style=title_style),
                                                         html.H4('Seleccione el Año'),
                                                         dcc.Dropdown(
                                                             id='year_destino',
@@ -377,7 +386,7 @@ def construcciones():
                                                 selected_style=tab_selected_style,
                                                 children=[
                                                     html.Div([
-                                                    html.H3('Distribución de las licencias de Construcciones para Viviendas, por año'),
+                                                    html.H3('Distribución de las licencias de Construcciones para Viviendas, por año',style=title_style),
                                                     html.H4('Seleccione Año'),
                                                     dcc.Dropdown(
                                                         id='year_vivienda',
@@ -387,7 +396,7 @@ def construcciones():
                                                         clearable=False
                                                     ),
                                                     dcc.Graph(id='vivienda'),
-                                                    html.H3('Composición de las licencias de Construcciones para Viviendas,  por tipo de vivienda, Vis o No vis, y estratos, en m2'),
+                                                    html.H3('Composición de las licencias de Construcciones para Viviendas,  por tipo de vivienda, Vis o No vis, y estratos, en m2',style=title_style),
                                                     dcc.Graph(figure=fig_new),
 
                                                     ],

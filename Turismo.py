@@ -10,27 +10,31 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+
 tabs_styles = {
     'height': '44px',
     'margin-left': 500,
     'margin-right':500,
     'color':'black',
-    'background': 'rgb(210, 232, 255)'
+    'background': 'rgb(229,45,39)'
 }
 tab_style = {
     'border': 'None',
     'padding': '6px',
-    'background':'rgb(210, 232, 255)', #AZUL CLARO
+    'background':'rgb(229,45,39)', #rojo CLARO
 }
 tab_selected_style = {
     'borderTop': '1px solid #d6d6d6',
     #'borderBottom': '1px solid #d6d6d6',
-    'background-color':'rgb(5, 112, 174)', #AZUL FUERTE
+    'background-color':'rgb(179, 18, 23)', #rojo FUERTE
     'color': 'white',
     'padding': '6px',
     'fontWeight': 'bold'
     }
-
+title_style={
+    'textAlign': 'center',
+    'color':'black'
+}
 path='Data/Turismo_consolidado_13.8.21.xlsx'
 df_1=pd.read_excel(path,sheet_name='Ocupación_mensual')
 
@@ -187,11 +191,15 @@ def Turismo():
                         [
                             html.Div(
                                 [
-                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_cifras.jpg', 'rb').read()).decode()), className="app__logo"),
+                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_or.jpg', 'rb').read()).decode()), className="app__logo", width=200),
 
                                     html.H4("By Kevin Sossa", className="header__text"),
                                 ],
-                                className="app__header",
+                                className="Banner",
+                                style={
+                                    'textAlign': 'center',
+                                    'color':'black'
+                                },
                             ),
                             html.Div(
                                 [
@@ -208,7 +216,7 @@ def Turismo():
                                                     html.Div(
                                                         [
 
-                                                            html.H3('Ocupación Hotelera'),
+                                                            html.H3('Ocupación Hotelera', style=title_style),
                                                             dcc.Graph(figure=fig_2),
 
                                                             dcc.Graph(figure=animada_ocup),
@@ -227,9 +235,9 @@ def Turismo():
                                                 selected_style=tab_selected_style,
                                                 children=[
                                                 html.Div([
-                                                   html.H3('Pasajeros LLEGADOS y SALIDOS de CARTAGENA'),
+                                                   html.H3('Pasajeros LLEGADOS y SALIDOS de CARTAGENA', style=title_style),
                                                    dcc.Graph(figure=fig_3),
-                                                   html.H3('Pasajeros LLEGADOS y SALIDOS de CARTAGENA, según origen y destino'),
+                                                   html.H3('Pasajeros LLEGADOS y SALIDOS de CARTAGENA, según origen y destino', style=title_style),
                                                    html.H4('Seleccione el Año: '),
                                                    dcc.Dropdown(
                                                        id='year_sac',
@@ -261,12 +269,12 @@ def Turismo():
                                             children=[
                                             html.Div(
                                                 [
-                                                html.H3('Datos de los Cruceros que llegan a la Terminal de Cruceros Cartagena de Indias: '),
+                                                html.H3('Datos de los Cruceros que llegan a la Terminal de Cruceros Cartagena de Indias: ', style=title_style),
                                                 dcc.Graph(id='cruceros_1', figure=Pas_tri),
                                                 dcc.Graph(id='cruceros_2', figure=prom),
 
                                                 dcc.Graph(id='cruceros_5', figure=ratio),
-                                                html.H3('Historico Anual y Mesual de los Pasajeros y las Enbarcaciones: '),
+                                                html.H3('Historico Anual y Mesual de los Pasajeros y las Enbarcaciones: ', style=title_style),
                                                 html.H4('Analisis Anual: '),
                                                 html.H4('Seleccione la variable: '),
 
@@ -305,9 +313,9 @@ def Turismo():
                                             children=[
                                             html.Div(
                                                 [
-                                                html.H3('Variación Anual de Salarios en Cartagena'),
+                                                html.H3('Variación Anual de Salarios en Cartagena', style=title_style),
                                                 dcc.Graph(id='Salarios',figure=fig_sal),
-                                                html.H3('Comparación de Variación Anual de Salarios por región'),
+                                                html.H3('Comparación de Variación Anual de Salarios por región', style=title_style),
 
                                                 dcc.Graph(id='Salarios_1', figure=fig_sal_com),
 
@@ -325,4 +333,5 @@ def Turismo():
                             ),
                         ],
                         className="page__container",
+
                     )

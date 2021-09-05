@@ -13,26 +13,31 @@ import dash_table
 #import dash_leaf_leat
 
 
+
 tabs_styles = {
     'height': '44px',
     'margin-left': 500,
     'margin-right':500,
     'color':'black',
-    'background': 'rgb(210, 232, 255)'
+    'background': 'rgb(229,45,39)'
 }
 tab_style = {
     'border': 'None',
     'padding': '6px',
-    'background':'rgb(210, 232, 255)', #AZUL CLARO
+    'background':'rgb(229,45,39)', #rojo CLARO
 }
 tab_selected_style = {
     'borderTop': '1px solid #d6d6d6',
     #'borderBottom': '1px solid #d6d6d6',
-    'background-color':'rgb(5, 112, 174)', #AZUL FUERTE
+    'background-color':'rgb(179, 18, 23)', #rojo FUERTE
     'color': 'white',
     'padding': '6px',
     'fontWeight': 'bold'
     }
+title_style={
+    'textAlign': 'center',
+    'color':'black'
+}
 #if use px
 #fruits = ["apples", "oranges", "bananas"]
 #fig = px.line(x=fruits, y=[1,3,2], color=px.Constant("This year"),
@@ -156,11 +161,15 @@ def mercado():
                         [
                             html.Div(
                                 [
-                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_cifras.jpg', 'rb').read()).decode()), className="app__logo"),
+                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_or.jpg', 'rb').read()).decode()), className="app__logo", width=200),
 
                                     html.H4("By Kevin Sossa", className="header__text"),
                                 ],
-                                className="app__header",
+                                className="Banner",
+                                style={
+                                    'textAlign': 'center',
+                                    'color':'black'
+                                },
                             ),
                             html.Div(
                                 [
@@ -177,7 +186,7 @@ def mercado():
                                                     html.Div(
                                                         [
 
-                                                            html.H3("Tasa de Ocupación Laboral de Cartagena"),
+                                                            html.H3("Tasa de Ocupación Laboral de Cartagena", style=title_style),
                                                             dcc.Graph(id="Ocupación_1",figure=fig_ocu),
                                                             html.H4("Tasa de Ocupación Laboral por Géneros"),
                                                             dcc.Graph(id="Ocupación_2",figure=fig_gen),
@@ -204,7 +213,7 @@ def mercado():
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
-                                                html.H3("Tasa de Desempleo de Cartagena"),
+                                                html.H3("Tasa de Desempleo de Cartagena", style=title_style),
                                                 dcc.Graph(id="Ocupación_1",figure=fig_des),
                                                 dcc.Graph(id="Ocupación_2",figure=Car_1),
                                                 html.H4("Tasa de Desocupación Laboral de Jovenes"),
@@ -221,7 +230,7 @@ def mercado():
                                                 style=tab_style,
                                                 selected_style=tab_selected_style,
                                                 children=[
-                                                html.H3("Tasa de Informalidad de Cartagena"),
+                                                html.H3("Tasa de Informalidad de Cartagena", style=title_style),
                                                 dcc.Graph(id="Ocupación_1",figure=Car_2),
                                                 dcc.Graph(id="Ocupación_2",figure=Informales),
 

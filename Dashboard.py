@@ -11,13 +11,15 @@ from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
+import pandas as pd
+import base64
 
-#app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 #app = dash.Dash(external_stylesheets=external_stylesheets,suppress_callback_exceptions=True)
 #[dbc.themes.LUX])
-app = dash.Dash(external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
+#app = dash.Dash(external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
 colors=['ffaa00', 'ffdd00', 'ff7b00','62bf41', '397224', 'e52d27' ,'b31217']
 path='Data/base de dinamica.xlsx'
 df=pd.read_excel(path,sheet_name='Acti_tamaño')
@@ -43,8 +45,8 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H4("Cartagena En Cifras"),
-        #html.H4("Cartagena En Cifras", className="display-4"),
+        #html.H4("Cartagena En Cifras"),
+        html.H2("Cartagena En Cifras", className="display-4"),
         html.Hr(),
 
         dbc.Nav(
@@ -71,7 +73,15 @@ app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname == "/":
-        return html.P("This is the content of the home page!")
+        return html.Div(
+            [
+                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\home_1.jpg', 'rb').read()).decode())),
+                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\home_2.jpg', 'rb').read()).decode())),
+                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\home_3.jpg', 'rb').read()).decode())),
+
+
+
+            ])
     elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
     elif pathname == "/construcciones":

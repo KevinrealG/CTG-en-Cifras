@@ -10,26 +10,31 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
+
 tabs_styles = {
     'height': '44px',
     'margin-left': 500,
     'margin-right':500,
     'color':'black',
-    'background': 'rgb(210, 232, 255)'
+    'background': 'rgb(229,45,39)'
 }
 tab_style = {
     'border': 'None',
     'padding': '6px',
-    'background':'rgb(210, 232, 255)', #AZUL CLARO
+    'background':'rgb(229,45,39)', #rojo CLARO
 }
 tab_selected_style = {
     'borderTop': '1px solid #d6d6d6',
     #'borderBottom': '1px solid #d6d6d6',
-    'background-color':'rgb(5, 112, 174)', #AZUL FUERTE
+    'background-color':'rgb(179, 18, 23)', #rojo FUERTE
     'color': 'white',
     'padding': '6px',
     'fontWeight': 'bold'
     }
+title_style={
+    'textAlign': 'center',
+    'color':'black'
+}
 
 path='Data/base de dinamica.xlsx'
 data=pd.read_excel(path,sheet_name='Historico jurisdicción')
@@ -39,7 +44,8 @@ fig = make_subplots(specs=[[{"secondary_y": True}]])
 fig.add_trace(
     go.Scatter(name='Variación Anual, %',
         x=data['Año'],
-        y=data['Var. Emp. Totales']
+        y=data['Var. Emp. Totales'],
+        line_color='rgb(255,221,0)'#yellow line color
     ),
     secondary_y=True,
     )
@@ -47,53 +53,57 @@ fig.add_trace(
 fig.add_trace(
     go.Bar(name='Numero Total de Empresas',
         x=data['Año'],
-        y=data['emp_activas']
+        y=data['emp_activas'],
+        marker_color='rgb(98, 191, 65)'#bar color
     ))
-fig.update_layout(title='Número Total de Empresas y Variación Anual de La Jurisdicción, por Años',barmode='group')
+fig.update_layout(title='Número Total de Empresas y Variación Anual de La Jurisdicción, por Años',barmode='group',plot_bgcolor="white")
 
 #figure of Variaciones
 fig1 = go.Figure(data=[
-    go.Bar(name='Variación Empresas Nuevas, %', x=data['Año'], y=data['Var. Emp. Nuevas']),
-    go.Bar(name='Variación Empresas Renovadas, %', x=data['Año'], y=data['Var. Emp. Renovadas'])
+    go.Bar(name='Variación Empresas Nuevas, %', x=data['Año'], y=data['Var. Emp. Nuevas'],marker_color='rgb(57, 114, 36)'),
+    go.Bar(name='Variación Empresas Renovadas, %', x=data['Año'], y=data['Var. Emp. Renovadas'],marker_color='rgb(229,45,39)')
 ])
-fig1.update_layout(title='Variaciones Anuales De Empresas Nuevas y Renovadas de La Jurisdiccion, por Años',barmode='group')
+fig1.update_layout(title='Variaciones Anuales De Empresas Nuevas y Renovadas de La Jurisdiccion, por Años',barmode='group',plot_bgcolor="white")
 
 #figure of Variaciones of Ingresos and Activos
 fig2 = go.Figure(data=[
-    go.Bar(name='Ingresos', x=data['Año'], y=data['Ingresos_Car']),
-    go.Bar(name='Activos', x=data['Año'], y=data['Activos_Car'])
+    go.Bar(name='Ingresos', x=data['Año'], y=data['Ingresos_Car'],marker_color='rgb(57, 114, 36)'),
+    go.Bar(name='Activos', x=data['Año'], y=data['Activos_Car'],marker_color='rgb(229,45,39)')
 ])
-fig2.update_layout(title='Activos e Ingresos Totales en Pesos de las Empresas de la Jurisdicción, por Año ')
+fig2.update_layout(title='Activos e Ingresos Totales en Pesos de las Empresas de la Jurisdicción, por Año ',plot_bgcolor="white")
 
 #figure of Variaciones of Empleos
 fig3 = go.Figure(data=[
-    go.Bar(name='Empleos Totales Generados en La Jurisdicción', x=data['Año'], y=data['Empleos_Car'])
+    go.Bar(name='Empleos Totales Generados en La Jurisdicción', x=data['Año'], y=data['Empleos_Car'],marker_color='rgb(57, 114, 36)')
     ])
 # Change the bar mode
-fig3.update_layout(title='Empleos Totales Generados en La Jurisdicción')
+fig3.update_layout(title='Empleos Totales Generados en La Jurisdicción',plot_bgcolor="white")
 #Figure the historico de empresas Cartagena
 fig4 = make_subplots(specs=[[{"secondary_y": True}]])
 
 fig4.add_trace(
     go.Scatter(name='Variación Nuevas, %',
         x=data['Año'],
-        y=data['Var. Emp. Nuevas']
+        y=data['Var. Emp. Nuevas'],
+        line_color='rgb(255,221,0)'
     ),
     secondary_y=True,
     )
 fig4.add_trace(
     go.Scatter(name='Variación Renovadas, %',
         x=data['Año'],
-        y=data['Var. Emp. Renovadas']
+        y=data['Var. Emp. Renovadas'],
+        line_color='rgb(179, 18, 23)'
     ),
     secondary_y=True,
     )
 fig4.add_trace(
     go.Bar(name='Empresas',
         x=data['Año'],
-        y=data['Empresas_Car']
+        y=data['Empresas_Car'],
+        marker_color='rgb(57, 114, 36)'
     ))
-fig4.update_layout(title='Número Total de Empresas y Variación Anual de Empresas Renovadas y Nuevas Cartagena, por Años',barmode='stack')
+fig4.update_layout(title='Número Total de Empresas y Variación Anual de Empresas Renovadas y Nuevas Cartagena, por Años',barmode='stack',plot_bgcolor="white")
 
 
 data2=pd.read_excel(path,sheet_name='Tamaño_1')
@@ -148,11 +158,15 @@ def empresarial():
                         [
                             html.Div(
                                 [
-                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_cifras.jpg', 'rb').read()).decode()), className="app__logo"),
+                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_or.jpg', 'rb').read()).decode()), className="app__logo", width=200),
 
                                     html.H4("By Kevin Sossa", className="header__text"),
                                 ],
-                                className="app__header",
+                                className="Banner",
+                                style={
+                                    'textAlign': 'center',
+                                    'color':'black'
+                                },
                             ),
                             html.Div(
                                 [

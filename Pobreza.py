@@ -15,21 +15,25 @@ tabs_styles = {
     'margin-left': 500,
     'margin-right':500,
     'color':'black',
-    'background': 'rgb(210, 232, 255)'
+    'background': 'rgb(229,45,39)'
 }
 tab_style = {
     'border': 'None',
     'padding': '6px',
-    'background':'rgb(210, 232, 255)', #AZUL CLARO
+    'background':'rgb(229,45,39)', #rojo CLARO
 }
 tab_selected_style = {
     'borderTop': '1px solid #d6d6d6',
     #'borderBottom': '1px solid #d6d6d6',
-    'background-color':'rgb(5, 112, 174)', #AZUL FUERTE
+    'background-color':'rgb(179, 18, 23)', #rojo FUERTE
     'color': 'white',
     'padding': '6px',
     'fontWeight': 'bold'
     }
+title_style={
+    'textAlign': 'center',
+    'color':'black'
+}
 #if use px
 #fruits = ["apples", "oranges", "bananas"]
 #fig = px.line(x=fruits, y=[1,3,2], color=px.Constant("This year"),
@@ -152,11 +156,15 @@ def pobreza():
                         [
                             html.Div(
                                 [
-                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_cifras.jpg', 'rb').read()).decode()), className="app__logo"),
+                                    html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\ctg_or.jpg', 'rb').read()).decode()), className="app__logo", width=200),
 
                                     html.H4("By Kevin Sossa", className="header__text"),
                                 ],
-                                className="app__header",
+                                className="Banner",
+                                style={
+                                    'textAlign': 'center',
+                                    'color':'black'
+                                },
                             ),
                             html.Div(
                                 [
@@ -172,8 +180,8 @@ def pobreza():
                                                 children=[
                                                     html.Div(
                                                         [
-                                                            html.H4("Lineas de Pobreza", className="header__text"),
-                                                            html.P("Lineas:"),
+                                                            html.H3("Lineas de Pobreza", className="header__text", style=title_style),
+                                                            html.H4("Lineas:"),
                                                             dcc.Dropdown(
                                                                 id='linea_drop',
                                                                 value='Pobreza',
@@ -184,8 +192,8 @@ def pobreza():
 
                                                             dcc.Graph(id="Lineas_1"),
 
-                                                            html.H4("INGRESOS y lineas de pobreza, en Pesos", className="header__text"),
-                                                            html.P("Lineas:"),
+                                                            html.H3("Lineas de pobreza, en Pesos", className="header__text", style=title_style),
+                                                            html.H4("Lineas:"),
                                                             dcc.Dropdown(
                                                                 id='linea_pesos',
                                                                 value='Extrema',
@@ -195,7 +203,7 @@ def pobreza():
                                                             ),
 
                                                             dcc.Graph(id="Lineas_2"),
-                                                            html.H3('Año'),
+                                                            html.H4(' Seleccione el Año: '),
                                                             dcc.Dropdown(
                                                                 id='year_pobre',
                                                                 value=2019,
