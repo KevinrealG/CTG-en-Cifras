@@ -43,7 +43,8 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H4("Cartagena En Cifras", className="display-4"),
+        html.H4("Cartagena En Cifras"),
+        #html.H4("Cartagena En Cifras", className="display-4"),
         html.Hr(),
 
         dbc.Nav(
@@ -134,6 +135,14 @@ def dest(trimestre,year):
     fig_2 = top_5_des(year=year)
     return fig_1, fig_2
 
+@app.callback(
+    Output("cruceros_3", "figure"),
+    Output("cruceros_4", "figure"),
+     Input("variable_cru", "value"),Input("year_cru", "value"))
+def cruceros(variable,year):
+    fig_1 = cruceros_anual_total(Categoria=variable)
+    fig_2 = cruceros_mensual(year=year,Categoria=variable)
+    return fig_1, fig_2
 @app.callback(
     Output("Lineas_1", "figure"),
     Input("linea_drop", "value"))

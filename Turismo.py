@@ -101,6 +101,7 @@ fig_sal_com=px.area(df_4_b, facet_col="regiones", facet_col_wrap=2)
 #Cruceros
 df_5=pd.read_excel(path,sheet_name='Cruceros')
 def cruceros_mensual(Categoria,year='2020',df=df_5):
+    year=str(year)
     data=df.loc[df['Categoria']==Categoria].reset_index()
     if Categoria=='Recaladas':
         title='Recaladas mesuales en la Terminal de Cruceros Cartagena en el Año: '+str(year)
@@ -146,7 +147,7 @@ Pas_tri = go.Figure(go.Indicator(
     mode = "number+delta",
     value = data_1.loc['2020'],
     #value = data_1[2020].values,
-    delta = {"reference":  data_1['2019'], "valueformat": ".2f",'relative': True},
+    delta = {"reference":  data_1['2019'],'relative': True},
     title = {"text": "Resultado 2020"},
     domain = {'y': [0, 1], 'x': [0.25, 0.75]})
     )
@@ -157,9 +158,9 @@ Pas_tri.update_layout(title='Total de Pasajeros mas Tripulantes por Años')
 prom = go.Figure(go.Indicator(
 
     mode = "number+delta",
-    value = data_2['2019'],
+    value = data_2['2020'],
     #value = data_1[2020],
-    delta = {"reference":  data_2['2019'], "valueformat": ".2f",'relative': True},
+    delta = {"reference":  data_2['2019'],'relative': True},
     title = {"text": "Resultado 2020"},
     domain = {'y': [0, 1], 'x': [0.25, 0.75]})
     )
@@ -260,9 +261,15 @@ def Turismo():
                                             children=[
                                             html.Div(
                                                 [
+                                                html.H3('Datos de los Cruceros que llegan a la Terminal de Cruceros Cartagena de Indias: '),
                                                 dcc.Graph(id='cruceros_1', figure=Pas_tri),
                                                 dcc.Graph(id='cruceros_2', figure=prom),
+
+                                                dcc.Graph(id='cruceros_5', figure=ratio),
+                                                html.H3('Historico Anual y Mesual de los Pasajeros y las Enbarcaciones: '),
+                                                html.H4('Analisis Anual: '),
                                                 html.H4('Seleccione la variable: '),
+
                                                 dcc.Dropdown(
                                                     id='variable_cru',
                                                     value='Recaladas',
@@ -271,6 +278,9 @@ def Turismo():
                                                     clearable=False
                                                 ),
                                                 dcc.Graph(id='cruceros_3'),
+                                                html.H4('Analisis Mensual: '),
+
+                                                html.H4('Seleccione el año: '),
                                                 dcc.Dropdown(
                                                     id='year_cru',
                                                     value=2020,
@@ -280,7 +290,6 @@ def Turismo():
                                                 ),
 
                                                 dcc.Graph(id='cruceros_4'),
-                                                dcc.Graph(id='cruceros_5', figure=ratio),
 
 
                                                 ],
