@@ -39,8 +39,9 @@ path='Data/Turismo_consolidado_13.8.21.xlsx'
 df_1=pd.read_excel(path,sheet_name='Ocupación_mensual')
 
 df_1['date']= pd.to_datetime(df_1[["year", "month", "day"]])
+color=['#ffaa00']*(df_1['linea'].size)
 #df_2=df_1.loc[df_1['year']==2020]
-animada_ocup=px.bar(df_1, x='x', y="Ocupación", animation_frame="linea", animation_group="date",range_y=[0,100])
+animada_ocup=px.bar(df_1, x='x', y="Ocupación", animation_frame="linea", animation_group="date",range_y=[0,100], color=color)
 animada_ocup.update_layout(title='Ocupación Hotelera en Cartagena %, mensual')
 
 fig1 = go.Figure(data=[
@@ -52,16 +53,17 @@ fig1 = go.Figure(data=[
     go.Bar(name='Otros', x=df_1['date'], y=df_1['Otros']),
 ])
 fig1.update_layout(title='historico de motivos de Viajes',barmode='stack')
+color_2=['#ffdd00']*(df_1['date'].size)
+fig_2=px.area( x=df_1['date'], y=df_1['Ocupación'], color=color_2)
 
-fig_2=px.area( x=df_1['date'], y=df_1['Ocupación'])
 fig_2.update_layout(title='Ocupación Hotelera en Cartagena %, mensual')
 #Sacsa
 df_2=pd.read_excel(path,sheet_name='sa_csa')
 
 
 fig_3 = go.Figure(data=[
-    go.Bar(name='Salidas', x=df_2['Fecha'], y=df_2['Salidas']),
-    go.Bar(name='Llegadas ', x=df_2['Fecha'], y=df_2['Llegadas']),
+    go.Bar(name='Salidas', x=df_2['Fecha'], y=df_2['Salidas'],marker_color='#e52d27'),
+    go.Bar(name='Llegadas ', x=df_2['Fecha'], y=df_2['Llegadas'],marker_color='#62bf41'),
 
 ])
 fig_3.update_layout(title='Pasajeros llegados y salidos, mensual',barmode='group')
@@ -94,7 +96,7 @@ fig_sal = go.Figure(go.Indicator(
     domain = {'y': [0, 1], 'x': [0.25, 0.75]})
     )
 
-fig_sal.add_trace(go.Scatter(x=df_4['Time'],y = df_4['Cartagena']))
+fig_sal.add_trace(go.Scatter(x=df_4['Time'],y = df_4['Cartagena'],line_color='#ffdd00'))
 fig_sal.update_layout(title='Variación de Salarios Cartagena, por año y mes')
 df_4_b=df_4.set_index('Time')
 df_4_b=df_4_b.drop(columns=['Year','Month'])
@@ -119,7 +121,7 @@ def cruceros_mensual(Categoria,year='2020',df=df_5):
         title='Tripulantes de los Cruceros en el Año: '+str(year)
     data=data.loc[0:11,:]
     fig_ivn = go.Figure()
-    fig_ivn.add_trace(go.Scatter(x=data['Mes'],y = data[year]))
+    fig_ivn.add_trace(go.Scatter(x=data['Mes'],y = data[year], line_color="#ff7b00"))
     fig_ivn.update_layout(title=title)
     return fig_ivn
 df_6=pd.read_excel(path,sheet_name='cruceros_resumen').set_index('Categoria')
@@ -156,7 +158,7 @@ Pas_tri = go.Figure(go.Indicator(
     domain = {'y': [0, 1], 'x': [0.25, 0.75]})
     )
 
-Pas_tri.add_trace(go.Scatter(x=data_1.index,y = data_1.values))
+Pas_tri.add_trace(go.Scatter(x=data_1.index,y = data_1.values,line_color='#ffdd00'))
 Pas_tri.update_layout(title='Total de Pasajeros mas Tripulantes por Años')
 
 prom = go.Figure(go.Indicator(
@@ -169,7 +171,7 @@ prom = go.Figure(go.Indicator(
     domain = {'y': [0, 1], 'x': [0.25, 0.75]})
     )
 
-prom.add_trace(go.Scatter(x=data_2.index,y = data_2.values))
+prom.add_trace(go.Scatter(x=data_2.index,y = data_2.values,line_color='#ffdd00'))
 prom.update_layout(title='Promedio Anual de Pasajeros Por Recalada ')
 ratio = go.Figure(go.Indicator(
 
@@ -181,7 +183,7 @@ ratio = go.Figure(go.Indicator(
     domain = {'y': [0, 1], 'x': [0.25, 0.75]})
     )
 
-ratio.add_trace(go.Scatter(x=data_3.index,y = data_3.values))
+ratio.add_trace(go.Scatter(x=data_3.index,y = data_3.values,line_color='#ffdd00'))
 ratio.update_layout(title='Tasa Anual de Tripulantes por Pasajeros')
 #fig = px.bar(df, x="date", y=['Vacaciones, Ocio y Recreo',Trabajo y Negocios'], color="columns",
  #animation_frame="year", animation_group="country", range_y=[0,4000000000])

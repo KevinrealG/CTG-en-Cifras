@@ -69,7 +69,7 @@ def acti_merc(year=2020,df=data_2):
     #new_df=new_df.loc[:,'Agricultura, ganadería, caza, silvicultura y pesca':'Genero']
     #new_df=new_df.rename_axis('Actividades',axis='columns')
     new_df=df.loc[year]
-    fig=go.Figure(go.Bar(x=new_df.index, y=new_df.values))
+    fig=go.Figure(go.Bar(x=new_df.index, y=new_df.values,marker_color='#62bf41'))
     fig.update_layout(title='Ocupación de Cartagena según Actividades Economicas en el Año: '+str(year))
     return fig
 

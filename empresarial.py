@@ -208,8 +208,8 @@ def empresarial():
                                                     clearable=False
                                                 ),
                                                 dcc.Graph(id="pie-chart"),
-                                                html.H4("Composición de las Empresas de Cartagena según el tamaño y las Actividades Economicas", className="header__text"),
-                                                html.P("Seleccione la variable de comparación:"),
+                                                html.H3("Composición de las Empresas de Cartagena según el tamaño y las Actividades Economicas", className="header__text",style=title_style),
+                                                html.H4("Seleccione la variable de comparación:"),
                                                 dcc.Dropdown(
                                                     id='values',
                                                     value='Empresas',
@@ -217,7 +217,7 @@ def empresarial():
                                                              for x in ['Empresas', 'Empleos', 'Activos','Ingresos']],
                                                     clearable=False
                                                 ),
-                                                html.P("Seleccione el Tamaño de las Empresas:"),
+                                                html.H4("Seleccione el Tamaño de las Empresas:"),
                                                 dcc.Dropdown(
                                                     id='tam',
                                                     value='Grande',
