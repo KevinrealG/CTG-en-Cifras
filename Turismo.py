@@ -41,7 +41,7 @@ df_1=pd.read_excel(path,sheet_name='Ocupación_mensual')
 df_1['date']= pd.to_datetime(df_1[["year", "month", "day"]])
 color=['#ffaa00']*(df_1['linea'].size)
 #df_2=df_1.loc[df_1['year']==2020]
-animada_ocup=px.bar(df_1, x='x', y="Ocupación", animation_frame="linea", animation_group="date",range_y=[0,100], color=color)
+animada_ocup=px.bar(df_1, x='x', y="Ocupación", animation_frame="linea", animation_group="date",range_y=[0,100])
 animada_ocup.update_layout(title='Ocupación Hotelera en Cartagena %, mensual')
 
 fig1 = go.Figure(data=[
