@@ -1,0 +1,4 @@
+ctg
+*.pyc
+.DS_Store
+.env

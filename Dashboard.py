@@ -11,12 +11,12 @@ from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
-import pandas as pd
 import base64
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
+server = app.server
+app.config.suppress_callback_exceptions = False
 #app = dash.Dash(external_stylesheets=external_stylesheets,suppress_callback_exceptions=True)
 #[dbc.themes.LUX])
 #app = dash.Dash(external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
