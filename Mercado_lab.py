@@ -187,9 +187,9 @@ def mercado():
                                                         [
 
                                                             html.H3("Tasa de Ocupación Laboral de Cartagena", style=title_style),
-                                                            dcc.Graph(id="Ocupación_1",figure=fig_ocu),
+                                                            dcc.Graph(id="Ocupa_1",figure=fig_ocu),
                                                             html.H4("Tasa de Ocupación Laboral por Géneros"),
-                                                            dcc.Graph(id="Ocupación_2",figure=fig_gen),
+                                                            dcc.Graph(id="Ocupa_2",figure=fig_gen),
                                                             html.H4("Ocupación Laboral por Actividades Económicas"),
                                                             dcc.Dropdown(
                                                                 id='year_mercado',
@@ -214,12 +214,12 @@ def mercado():
                                                 selected_style=tab_selected_style,
                                                 children=[
                                                 html.H3("Tasa de Desempleo de Cartagena", style=title_style),
-                                                dcc.Graph(id="Ocupación_1",figure=fig_des),
-                                                dcc.Graph(id="Ocupación_2",figure=Car_1),
+                                                dcc.Graph(id="des_1",figure=fig_des),
+                                                dcc.Graph(id="des_2",figure=Car_1),
                                                 html.H4("Tasa de Desocupación Laboral de Jovenes"),
-                                                dcc.Graph(id="Ocupación_2",figure=jovenes_doc),
+                                                dcc.Graph(id="des_3",figure=jovenes_doc),
                                                 html.H4("Tasa de Desocupación Laboral por Géneros"),
-                                                dcc.Graph(id="Ocupación_2",figure=fig_gen_des),
+                                                dcc.Graph(id="des_4",figure=fig_gen_des),
 
 
                                                 ],
@@ -232,7 +232,7 @@ def mercado():
                                                 children=[
                                                 html.H3("Tasa de Informalidad de Cartagena", style=title_style),
                                                 dcc.Graph(id="Ocupación_1",figure=Car_2),
-                                                dcc.Graph(id="Ocupación_2",figure=Informales),
+                                                dcc.Graph(id="Informales_2",figure=Informales),
 
 
                                                 ],

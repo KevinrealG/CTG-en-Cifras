@@ -16,7 +16,7 @@ import base64
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 server = app.server
-app.config.suppress_callback_exceptions = False
+#app.config.suppress_callback_exceptions = False
 #app = dash.Dash(external_stylesheets=external_stylesheets,suppress_callback_exceptions=True)
 #[dbc.themes.LUX])
 #app = dash.Dash(external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
@@ -189,4 +189,4 @@ def iccv(tipo):
     a,b = ICCV(tipo=tipo)
     return b,a
 if __name__ == "__main__":
-    app.run_server(port=8888,debug=True)
+    app.run_server(debug=True)
