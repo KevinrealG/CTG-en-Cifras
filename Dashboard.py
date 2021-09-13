@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-from empresarial import empresarial,tamano
+#from empresarial import empresarial,tamano
 #from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
 #from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
 #from Mercado_lab import mercado, acti_merc
@@ -107,9 +107,9 @@ def render_page_content(pathname):
 
 
             ])
-    elif pathname == "/dinamica-empresarial":
+    """elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
-    """elif pathname == "/construcciones":
+    elif pathname == "/construcciones":
         return  [ construcciones()]
     elif pathname == "/pobreza":
         return  [ pobreza()]
@@ -125,7 +125,7 @@ def render_page_content(pathname):
             html.P(f"The pathname {pathname} was not recognised..."),
         ]
     )
-@app.callback(
+"""@app.callback(
     Output("pie-chart", "figure"),
     Output("treemap-chart", "figure"),
      Input("values", "value"),Input("year", "value"),Input("tam", "value"))
@@ -141,7 +141,7 @@ def generate_chart(values,year,tam):
 def cons(trimestre,year):
     fig = estratos_construcciones(year=year,trimestre=trimestre)
     return fig
-"""@app.callback(
+@app.callback(
     Output("sacsa", "figure"),
     Output("sacsa_1", "figure"),
      Input("month_sac", "value"),Input("year_sac", "value"))
