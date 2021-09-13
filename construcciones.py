@@ -164,9 +164,9 @@ def ICCV(tipo,df=data_8,df_2=data_9):
     title=''
     if tipo=='Total':
         title='Variación anual total ICCV '
-    elif Lineas=='Vivienda unifamiliar':
+    elif tipo=='Vivienda unifamiliar':
         title='Variación anual ICCV para Vivienda unifamiliar'
-    elif Lineas=='Vivienda multifamiliar':
+    elif tipo=='Vivienda multifamiliar':
         title='Variación anual ICCV para Vivienda unifamiliar'
     else:
         title='Variación anual ICCV para VIS'

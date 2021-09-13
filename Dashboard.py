@@ -4,10 +4,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from empresarial import empresarial,tamano
-from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
-from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
-from Mercado_lab import mercado, acti_merc
-from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
+#from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
+#from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
+#from Mercado_lab import mercado, acti_merc
+#from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
@@ -24,6 +24,30 @@ colors=['ffaa00', 'ffdd00', 'ff7b00','62bf41', '397224', 'e52d27' ,'b31217']
 colors_name=['oranges','yellow','strong_orange','green_light','green_strong','red_ligth','red_strong']
 path='Data/base de dinamica.xlsx'
 df=pd.read_excel(path,sheet_name='Acti_tamaño')
+tabs_styles = {
+    'height': '44px',
+    'margin-left': 500,
+    'margin-right':500,
+    'color':'black',
+    'background': 'rgb(229,45,39)'
+}
+tab_style = {
+    'border': 'None',
+    'padding': '6px',
+    'background':'rgb(229,45,39)', #rojo CLARO
+}
+tab_selected_style = {
+    'borderTop': '1px solid #d6d6d6',
+    #'borderBottom': '1px solid #d6d6d6',
+    'background-color':'rgb(179, 18, 23)', #rojo FUERTE
+    'color': 'white',
+    'padding': '6px',
+    'fontWeight': 'bold'
+    }
+title_style={
+    'textAlign': 'center',
+    'color':'black'
+}
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -85,14 +109,14 @@ def render_page_content(pathname):
             ])
     elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
-    elif pathname == "/construcciones":
+    """elif pathname == "/construcciones":
         return  [ construcciones()]
     elif pathname == "/pobreza":
         return  [ pobreza()]
     elif pathname == "/mercado_lab":
         return  [ mercado()]
     elif pathname == "/turismo":
-        return [ Turismo()]
+        return [ Turismo()]"""
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
@@ -117,7 +141,7 @@ def generate_chart(values,year,tam):
 def cons(trimestre,year):
     fig = estratos_construcciones(year=year,trimestre=trimestre)
     return fig
-@app.callback(
+"""@app.callback(
     Output("sacsa", "figure"),
     Output("sacsa_1", "figure"),
      Input("month_sac", "value"),Input("year_sac", "value"))
@@ -187,6 +211,6 @@ def cons(year):
      Input("ICCV", "value"))
 def iccv(tipo):
     a,b = ICCV(tipo=tipo)
-    return b,a
+    return b,a"""
 if __name__ == "__main__":
     app.run_server(debug=True)
