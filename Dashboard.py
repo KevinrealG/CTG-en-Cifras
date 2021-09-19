@@ -115,11 +115,12 @@ def render_page_content(pathname):
         return [ Turismo()]
     elif pathname == "/mercado_lab":
         return  [ mercado()]
+    elif pathname == "/construcciones":
+        return  [ construcciones()]
 
     """elif pathname == "/dinamica-empresarial":
-        return [ empresarial()]
-    elif pathname == "/construcciones":
-        return  [ construcciones()]"""
+        return [ empresarial()]"""
+
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
