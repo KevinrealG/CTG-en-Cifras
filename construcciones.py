@@ -66,13 +66,13 @@ data=data[['Time','culminada','proceso','paralizada']].set_index('Time')
 data=data.rename_axis('areas',axis='columns')
 figx = px.area(data, facet_col="areas", facet_col_wrap=1)
 #the same figure for estratos
-data_2=pd.read_excel(path,sheet_name='Estratos')
-data_2=data_2.loc[:,'Total':'Time'].set_index('Time')
-data_2=data_2.rename_axis('Estratos',axis='columns')
-figy = px.area(data_2, facet_col="Estratos", facet_col_wrap=2)
+data=pd.read_excel(path,sheet_name='Estratos')
+data=data.loc[:,'Total':'Time'].set_index('Time')
+data=data.rename_axis('Estratos',axis='columns')
+figy = px.area(data, facet_col="Estratos", facet_col_wrap=2)
 #composicion por años
-data_2=pd.read_excel(path,sheet_name='Estratos')
-data_2_a=data_2.set_index(['Año','Trimestre'])
+data=pd.read_excel(path,sheet_name='Estratos')
+data_2_a=data.set_index(['Año','Trimestre'])
 data_2_a=data_2_a.drop(columns=['Time','Total'])
 def estratos_construcciones(year=2020,trimestre='I',data=data_2_a):
     df2=data.loc[(year,trimestre)]
@@ -81,19 +81,14 @@ def estratos_construcciones(year=2020,trimestre='I',data=data_2_a):
 
     return fig
 
-"""dcc.Graph(id="pie-cont"),
-data_2_b=data_2.rename_axis('estratos',axis='columns')
-data_2_b=data_2_b.drop(columns=['Time','Total'])
-data_2_b=data_2_b.set_index(['Año','Trimestre'])"""
 #vivienda
-data_4=pd.read_excel(path,sheet_name='vivienda')
+data=pd.read_excel(path,sheet_name='vivienda')
 
-fig_new= px.icicle(data_4, path=[px.Constant("all"),'tipo','vis', 'estrato'], values='area')
-#fig = px.icicle(data_2_b, path=[px.Constant("all"),data_2_b.index.get_level_values(0), .index.get_level_values(1), 'estratos'], values='total_bill')
-#fig_new.update_traces(root_color="lightgrey")
+fig_new= px.icicle(data, path=[px.Constant("all"),'tipo','vis', 'estrato'], values='area')
+
 fig_new.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-data_4_b=pd.read_excel(path,sheet_name='Vis_no')
-def Viviendas(year=2020,df=data_4):
+def Viviendas(year=2020):
+    df=pd.read_excel(path,sheet_name='vivienda')
     data=df.loc[df['año']==year]
     df1=data.groupby('vis').agg(Area=('area', 'sum'),Unidades=('unidades','sum'))
     df2=data.groupby('tipo').agg(Area=('area', 'sum'),Unidades=('unidades','sum'))

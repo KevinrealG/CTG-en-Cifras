@@ -4,10 +4,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from empresarial import empresarial,tamano
-from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
-from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
-from Mercado_lab import mercado, acti_merc
-from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
+#from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
+#from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
+#from Mercado_lab import mercado, acti_merc
+#from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
@@ -111,14 +111,14 @@ def render_page_content(pathname):
             ])
     elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
-    elif pathname == "/construcciones":
+    """elif pathname == "/construcciones":
         return  [ construcciones()]
     elif pathname == "/pobreza":
         return  [ pobreza()]
     elif pathname == "/mercado_lab":
         return  [ mercado()]
     elif pathname == "/turismo":
-        return [ Turismo()]
+        return [ Turismo()]"""
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [

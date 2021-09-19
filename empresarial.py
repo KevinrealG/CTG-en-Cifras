@@ -106,8 +106,9 @@ fig4.add_trace(
 fig4.update_layout(title='Número Total de Empresas y Variación Anual de Empresas Renovadas y Nuevas Cartagena, por Años',barmode='stack',plot_bgcolor="white")
 
 
-data2=pd.read_excel(path,sheet_name='Tamaño_1')
-def df(variable,year=2020,data=data2):
+
+def df(variable,year=2020):
+        data=pd.read_excel(path,sheet_name='Tamaño_1')
         data=data.loc[data['Categoria']==variable]
         labels = data['Tamaño']
         #print(data[2019])
@@ -120,10 +121,10 @@ def df(variable,year=2020,data=data2):
 # Create subplots: use 'domain' type for Pie subplot
 def tamano(year=2020):
     fig = make_subplots(rows=1, cols=4, specs=[[{'type':'domain'}, {'type':'domain'}, {'type':'domain'}, {'type':'domain'}]])
-    fig.add_trace(df('Empresas',year,data2), 1, 1)
-    fig.add_trace(df('Empleos',year,data2),  1, 2)
-    fig.add_trace(df('Activos',year,data2), 1, 3)
-    fig.add_trace(df('Ventas',year, data2), 1, 4)
+    fig.add_trace(df('Empresas',year), 1, 1)
+    fig.add_trace(df('Empleos',year),  1, 2)
+    fig.add_trace(df('Activos',year), 1, 3)
+    fig.add_trace(df('Ventas',year), 1, 4)
     # Use `hole` to create a donut-like pie chart
     #fig.update_traces(hole=.4, hoverinfo="label+percent+name")
 
@@ -138,17 +139,13 @@ def tamano(year=2020):
 
 #Sectores and apuestas
 path2='Data/Estructura2020.xlsx'
-data3=pd.read_excel(path2,sheet_name='Base')
-df3=data3.groupby(['SECTOR','ACTIVIDAD','DIVISIÓN']).agg(Empresas=('MATRICULA', 'count'),Empleos=('EMPLEADOS', 'sum'),Activos=('TOTAL ACTIVOS', 'sum'),Ingresos=('INGRESOS', 'sum') )
+data=pd.read_excel(path2,sheet_name='Base')
+df3=data.groupby(['SECTOR','ACTIVIDAD','DIVISIÓN']).agg(Empresas=('MATRICULA', 'count'),Empleos=('EMPLEADOS', 'sum'),Activos=('TOTAL ACTIVOS', 'sum'),Ingresos=('INGRESOS', 'sum') )
 #print(df3)
 #Sectores
-#fig_sec = px.icicle(data3, path=[px.Constant("all"),'SECTOR','ACTIVIDAD','TAMAÑO SEGÚN EMPLEO'], values='EMPLEADOS')
-#fig_sec.update_layout(title='Sectores por numero de EMPLEADOS',margin = dict(t=50, l=25, r=25, b=25))
-fig_sec1 = px.icicle(data3, path=[px.Constant("all"),'SECTOR','ACTIVIDAD','TAMAÑO SEGÚN ACTIVOS'], values='TOTAL ACTIVOS')
+fig_sec1 = px.icicle(data, path=[px.Constant("all"),'SECTOR','ACTIVIDAD','TAMAÑO SEGÚN ACTIVOS'], values='TOTAL ACTIVOS')
 fig_sec1.update_layout(title='Composición de los Sectores Economicos de la Jurisdicción, según Total de Activos',margin = dict(t=50, l=25, r=25, b=25))
-#fig_sec_2 = px.icicle(data3, path=[px.Constant("all"),'APUESTAS','SECTOR','TAMAÑO SEGÚN INGRESO SECTOR'], values='INGRESOS')
-#fig_sec_2.update_layout(title='Sectores por SEGÚN INGRESO SECTOR',margin = dict(t=50, l=25, r=25, b=25))
-fig_sec_3 = px.icicle(data3, path=[px.Constant("all"),'Apuesta_1','SECTOR','ACTIVIDAD'], values='Empresas')#count_values
+fig_sec_3 = px.icicle(data, path=[px.Constant("all"),'Apuesta_1','SECTOR','ACTIVIDAD'], values='Empresas')#count_values
 fig_sec_3.update_layout(title='Composición de las APUESTAS, según el Numero Total de Empresas',margin = dict(t=50, l=25, r=25, b=25))
 
 #app = dash.Dash()
