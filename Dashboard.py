@@ -109,12 +109,14 @@ def render_page_content(pathname):
 
 
             ])
+    elif pathname == "/pobreza":
+        return  [ pobreza()]
+
     """elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
     elif pathname == "/construcciones":
         return  [ construcciones()]"""
-    elif pathname == "/pobreza":
-        return  [ pobreza()]
+
     """elif pathname == "/mercado_lab":
         return  [ mercado()]
     elif pathname == "/turismo":
