@@ -9,6 +9,7 @@ import io
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import openpyxl
 
 tabs_styles = {
     'height': '44px',
