@@ -103,8 +103,8 @@ def render_page_content(pathname):
         return html.Div(
             [
                 html.Img(src='Data/home_1.jpg'),
-                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\home_2.jpg', 'rb').read()).decode())),
-                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\home_3.jpg', 'rb').read()).decode())),
+                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('home_2.jpg', 'rb').read()).decode())),
+                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('home_3.jpg', 'rb').read()).decode())),
 
 
 
