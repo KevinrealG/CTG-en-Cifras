@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output
 #from empresarial import empresarial,tamano
 #from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
 from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
-#from Mercado_lab import mercado, acti_merc
+from Mercado_lab import mercado, acti_merc
 from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
 from dash.exceptions import PreventUpdate
 import pandas as pd
@@ -113,15 +113,13 @@ def render_page_content(pathname):
         return  [ pobreza()]
     elif pathname == "/turismo":
         return [ Turismo()]
+    elif pathname == "/mercado_lab":
+        return  [ mercado()]
 
     """elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
     elif pathname == "/construcciones":
         return  [ construcciones()]"""
-
-    """elif pathname == "/mercado_lab":
-        return  [ mercado()]
-    """
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
