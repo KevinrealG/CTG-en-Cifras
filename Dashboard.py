@@ -102,7 +102,7 @@ def render_page_content(pathname):
     if pathname == "/":
         return html.Div(
             [
-                html.Img(src='Data/home_1.jpg'),
+                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('home_1.jpg', 'rb').read()).decode())),
                 html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('home_2.jpg', 'rb').read()).decode())),
                 html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('home_3.jpg', 'rb').read()).decode())),
 
@@ -111,6 +111,8 @@ def render_page_content(pathname):
             ])
     elif pathname == "/pobreza":
         return  [ pobreza()]
+    elif pathname == "/turismo":
+        return [ Turismo()]
 
     """elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
@@ -119,8 +121,7 @@ def render_page_content(pathname):
 
     """elif pathname == "/mercado_lab":
         return  [ mercado()]
-    elif pathname == "/turismo":
-        return [ Turismo()]"""
+    """
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
