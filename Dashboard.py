@@ -4,7 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 #from empresarial import empresarial,tamano
-#from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
+from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
 from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
 from Mercado_lab import mercado, acti_merc
 from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
