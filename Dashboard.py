@@ -3,17 +3,17 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-#from empresarial import empresarial,tamano
-#from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
-#from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
-#from Mercado_lab import mercado, acti_merc
-#from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
+from empresarial import empresarial,tamano
+from construcciones import estratos_construcciones, construcciones, top_5, Viviendas, destinos, top_5_des, ICCV
+from Pobreza import pobreza, lineas, lineas_pesos, Comparativo
+from Mercado_lab import mercado, acti_merc
+from Turismo import Turismo, sac_dis, cruceros_mensual, cruceros_anual_total
 from dash.exceptions import PreventUpdate
 import pandas as pd
 import plotly.express as px
 import base64
 
-app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=False)
+app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP],suppress_callback_exceptions=True)
 #external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 server = app.server
 #app.config.suppress_callback_exceptions = False
@@ -107,7 +107,7 @@ def render_page_content(pathname):
 
 
             ])
-    """elif pathname == "/dinamica-empresarial":
+    elif pathname == "/dinamica-empresarial":
         return [ empresarial()]
     elif pathname == "/construcciones":
         return  [ construcciones()]
@@ -116,7 +116,7 @@ def render_page_content(pathname):
     elif pathname == "/mercado_lab":
         return  [ mercado()]
     elif pathname == "/turismo":
-        return [ Turismo()]"""
+        return [ Turismo()]
     # If the user tries to reach a different page, return a 404 message
     return dbc.Jumbotron(
         [
@@ -125,7 +125,7 @@ def render_page_content(pathname):
             html.P(f"The pathname {pathname} was not recognised..."),
         ]
     )
-"""@app.callback(
+@app.callback(
     Output("pie-chart", "figure"),
     Output("treemap-chart", "figure"),
      Input("values", "value"),Input("year", "value"),Input("tam", "value"))
@@ -211,6 +211,6 @@ def cons(year):
      Input("ICCV", "value"))
 def iccv(tipo):
     a,b = ICCV(tipo=tipo)
-    return b,a"""
+    return b,a
 if __name__ == "__main__":
     app.run_server(debug=True)
