@@ -22,8 +22,8 @@ server = app.server
 #app = dash.Dash(external_stylesheets=[dbc.themes.LUX],suppress_callback_exceptions=True)
 colors=['ffaa00', 'ffdd00', 'ff7b00','62bf41', '397224', 'e52d27' ,'b31217']
 colors_name=['oranges','yellow','strong_orange','green_light','green_strong','red_ligth','red_strong']
-#path='Data/base de dinamica.xlsx'
-#df=pd.read_excel(path,sheet_name='Acti_tamaño')
+path='Data/base de dinamica.xlsx'
+df=pd.read_excel(path,sheet_name='Acti_tamaño')
 tabs_styles = {
     'height': '44px',
     'margin-left': 500,
@@ -100,7 +100,7 @@ def render_page_content(pathname):
     if pathname == "/":
         return html.Div(
             [
-                html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\home_1.jpg', 'rb').read()).decode())),
+                html.Img(src='Data/home_1.jpg'),
                 html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\home_2.jpg', 'rb').read()).decode())),
                 html.Img(src='data:image/png;base64,{}'.format(base64.b64encode(open('Data\home_3.jpg', 'rb').read()).decode())),
 
