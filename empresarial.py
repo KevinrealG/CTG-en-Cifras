@@ -137,7 +137,7 @@ def tamano(year=2020):
                      dict(text='Ventas', x=0.95, y=1, font_size=20, showarrow=False)])
     return fig
 
-#Sectores and apuestas
+"""#Sectores and apuestas
 path2='Data/Estructura2020.xlsx'
 data=pd.read_excel(path2,sheet_name='Base')
 df3=data.groupby(['SECTOR','ACTIVIDAD','DIVISIÓN']).agg(Empresas=('MATRICULA', 'count'),Empleos=('EMPLEADOS', 'sum'),Activos=('TOTAL ACTIVOS', 'sum'),Ingresos=('INGRESOS', 'sum') )
@@ -146,7 +146,7 @@ df3=data.groupby(['SECTOR','ACTIVIDAD','DIVISIÓN']).agg(Empresas=('MATRICULA', 
 fig_sec1 = px.icicle(data, path=[px.Constant("all"),'SECTOR','ACTIVIDAD','TAMAÑO SEGÚN ACTIVOS'], values='TOTAL ACTIVOS')
 fig_sec1.update_layout(title='Composición de los Sectores Economicos de la Jurisdicción, según Total de Activos',margin = dict(t=50, l=25, r=25, b=25))
 fig_sec_3 = px.icicle(data, path=[px.Constant("all"),'Apuesta_1','SECTOR','ACTIVIDAD'], values='Empresas')#count_values
-fig_sec_3.update_layout(title='Composición de las APUESTAS, según el Numero Total de Empresas',margin = dict(t=50, l=25, r=25, b=25))
+fig_sec_3.update_layout(title='Composición de las APUESTAS, según el Numero Total de Empresas',margin = dict(t=50, l=25, r=25, b=25))"""
 
 #app = dash.Dash()
 def empresarial():
@@ -236,9 +236,9 @@ def empresarial():
                                             html.Div(
                                                 [
                                                     #dcc.Graph(figure=fig_sec),
-                                                    dcc.Graph(figure=fig_sec1),
+                                                    #dcc.Graph(figure=fig_sec1),
                                                     #dcc.Graph(figure=fig_sec_2),
-                                                    dcc.Graph(figure=fig_sec_3),
+                                                    #dcc.Graph(figure=fig_sec_3),
 
                                                 ],
                                                 className="container__1",
